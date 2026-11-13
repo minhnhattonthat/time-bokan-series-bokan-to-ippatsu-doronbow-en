@@ -187,7 +187,25 @@ def sampled_inks(px, clut, margin=None):
     return bg, fill, mode(rest) if rest.size else int(fill[0])
 
 
-Inks = namedtuple("Inks", "fill line clear bg", defaults=(True, None))
+Inks = namedtuple("Inks", "fill line clear bg shadow", defaults=(True, None, None))  # shadow: 1 px down-right
+
+
+def inpaint(cell, mask):
+    """cell (in place) with each masked pixel taken from the nearest unmasked one, sideways first, then up/down."""
+    mask = mask.copy()
+    h, w = cell.shape
+    while mask.any():
+        before = mask.sum()
+        for dy, dx in ((0, -1), (0, 1), (-1, 0), (1, 0)):
+            src, ok = np.zeros_like(cell), np.zeros_like(mask)
+            ys, yd = slice(max(-dy, 0), h - max(dy, 0)), slice(max(dy, 0), h - max(-dy, 0))
+            xs, xd = slice(max(-dx, 0), w - max(dx, 0)), slice(max(dx, 0), w - max(-dx, 0))
+            src[yd, xd], ok[yd, xd] = cell[ys, xs], ~mask[ys, xs]  # each pixel's neighbour at (-dy, -dx)
+            take = mask & ok
+            cell[take] = src[take]
+            mask &= ~take
+        if mask.sum() == before:
+            raise ValueError("inpaint: nothing left to copy from")
 
 
 def typeset(data, rows):
@@ -204,6 +222,10 @@ def typeset(data, rows):
             px[y:y + h, x:x + w] = forced[0].bg
             continue
         ink, halo = glyphs(text, form)
+        sh = forced[0].shadow if forced else None
+        if sh is not None:
+            ink, halo = np.pad(ink, ((0, 1), (0, 1))), np.pad(halo, ((0, 1), (0, 1)))
+            shadow = np.roll(np.roll(ink | halo, 1, 0), 1, 1) & ~ink & ~halo
         gh, gw = ink.shape
         if gw > w or gh > h:
             raise ValueError(f"{text!r} is {gw}x{gh} in class {form}, rect is {w}x{h}")
@@ -219,6 +241,10 @@ def typeset(data, rows):
             if forced[0].bg == "above":  # textured plate: the rect takes the same-size patch just above it
                 px[y:y + h, x:x + w] = px[y - h:y, x:x + w]
                 clear = False
+            elif isinstance(forced[0].bg, tuple):  # art behind the glyphs: erase only these indices, keep the rest
+                cell0 = px[y:y + h, x:x + w]
+                inpaint(cell0, np.isin(cell0, forced[0].bg))
+                clear = False
             elif forced[0].bg == "row":  # each row's commonest non-text index of the rect itself (plates with bevels)
                 cell0 = px[y:y + h, x:x + w]
                 bg = np.array([mode(r[~np.isin(r, (forced[0].fill, line))]) if (~np.isin(r, (forced[0].fill, line))).any()
@@ -230,6 +256,8 @@ def typeset(data, rows):
             cell[:] = bg[:, None]
         oy, ox = (h - gh) // 2, {"l": 0, "r": w - gw}.get(align, (w - gw) // 2)
         box = cell[oy:oy + gh, ox:ox + gw]
+        if sh is not None:
+            box[shadow] = sh
         box[halo] = line
         box[ink] = np.broadcast_to(fill[oy:oy + gh, None], ink.shape)[ink]
     return tim.with_pixels(t, data, px.reshape(-1).tolist())
@@ -276,15 +304,19 @@ ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "
             **{f"ship.{k}": Inks(i, 15) for k, i in (("syareko", 14), ("andoro", 4), ("rakuda", 10), ("sya_bagi", 8),
                                                     ("denden", 6), ("doron", 14), ("boya", 6), ("tonzr", 8),
                                                     ("gaikotu", 12))},
-            "sel.gameover": Inks(14, 15), "sel.join_ok": Inks(6, 15),
+            "sel.gameover": Inks(14, 15, bg=(14, 15)), "sel.join_ok": Inks(6, 15),  # gameover: keep its bubble art
+            "sel.banner": Inks(15, 13, bg=(10, 14, 15)),  # erase the white glyphs and their shadow, keep the plates
             # card messages: short ones blue on white as the menu, sentences white on dark blue
             **{f"card.{k}": Inks(MENU_BLUE, 15) for k in ("access", "save_ok", "load_ok")},
-            **{f"card.{k}": Inks(15, 14) for k in ("this_card", "unformatted", "format_q", "no_space", "no_data")},
-            "hud.pochitto": Inks(15, 1), "hud.wait": Inks(10, 12), "boss5.anger": Inks(6, 1),
+            **{f"card.{k}": Inks(15, 14) for k in ("this_card", "unformatted", "format_q", "no_space", "no_data",
+                                                  "p_broken", "p_temasu", "p_save", "p_load", "p_failed")},
+            # sound test voice captions: solid yellow (sampling took the shadow on some rows, so the letters striped)
+            **{f"voice.{i:02}": Inks(5, 1, shadow=1) for i in range(1, 28)},
+            "hud.pochitto": Inks(15, 1, bg=(15, 1, 2), shadow=1),  # erase the glyphs, keep the round red badge "hud.wait": Inks(10, 12), "boss5.anger": Inks(6, 1),
             "st5.safety": Inks(6, 15, bg=15), "st5.sign_small": Inks(11, 1, bg=8),
             **{f"tag.{k}": Inks(15, 1) for k in ("andoro", "boya", "denden", "doron", "gaikotu", "rakuda", "syareko",
                                                 "sya_bagi", "tonzr", "tyarinko")}}  # white on the dark tag bar
-SONG_INKS = Inks(15, 1, bg="row")  # white, as the Japanese titles, on each row's own plate colour
+SONG_INKS = Inks(15, 1, bg="row", shadow=1)  # white with a dark drop shadow, as the Japanese, on each row's plate
 # row id: ((x, y, w, h, background index), ..) cleared beside the row, for glyph pieces an art piece keeps its rect from
 # reaching: the tail of スコア's ス sits under the ranking skull (x 108-125, y 96-110).
 CLEARS = {"rnk.score": ((118, 112, 8, 14, 0),)}
@@ -309,13 +341,15 @@ def stamp_x(data):
 
 
 def no_card(data):
-    """TITLE4 with the no-card message lettered across both quads in the inks of ・メモリー."""
+    """TITLE4 with the no-card message lettered across both quads in the inks of ・メモリー: white (15) on its dark navy
+    outline (14); sampling took the teal shading (8) for the outline, pale on the tan plate."""
     import tl_check
     t = tim.parse(data)
     px = tim_px(t, data)
     by_id = {r.id: r for r in gfx_script.rows()}
     r = by_id["card.p_memory"]
-    bg, fill, line = sampled_inks(px[r.y:r.y + r.h, r.x:r.x + r.w], pal(t, 0))
+    bg = sampled_inks(px[r.y:r.y + r.h, r.x:r.x + r.w], pal(t, 0))[0]
+    fill, line = [15], 14
     text = next(e["en"] for e in tl_check.table(ROOT / "script" / "en" / "graphics.tsv") if e["id"] == r.id)
     ink, halo = glyphs(text, by_id[r.id].form)
     if ink.shape[1] > 128 or ink.shape[0] > 40:
@@ -350,7 +384,10 @@ def english_items():
         rect = (r.x, r.y, r.w, r.h)
         if r.id.startswith("song."):  # the whole plate inside its bolts, so the rect takes 」 too; left, as the Japanese
             rect = (r.x, r.y, tl_check.SONG_W, r.h)
+        inks = ROW_INKS.get(r.id, SONG_INKS if r.id.startswith("song.") else None)
         gh, gw = glyphs(e["en"], form)[0].shape
+        if inks and inks.shadow is not None:
+            gh, gw = gh + 1, gw + 1
         others = [grown.get(o.id, (o.x, o.y, o.w, o.h)) for o in by_id.values()
                   if o.file == r.file and o.id != r.id and o.form != "keep"]
         if gw > rect[2] or gh > rect[3]:
@@ -359,7 +396,6 @@ def english_items():
         for *c, bg in CLEARS.get(r.id, ()):
             yield r.id, r.file, (tuple(c), "", form, "c", Inks(bg, bg, True, bg))
         row = (rect, e["en"], form, "l" if r.id.startswith("song.") or r.id in LEFT else "c")
-        inks = ROW_INKS.get(r.id, SONG_INKS if r.id.startswith("song.") else None)
         if inks:
             row += (inks,)
         elif r.id in cluts:

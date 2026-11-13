@@ -90,7 +90,7 @@ ship.boya	Boyacky Car
 ship.tonzr	Tonzra Car
 ship.gaikotu	Gaikottsu
 sel.gameover	Game Over
-sel.join_ok	Join In!		参加OK: player 2 may join
+sel.join_ok	Join In!	banner	参加OK: player 2 may join; banner class, as the Japanese fills its 28 px
 sel.repair	Under|Repair		整備中 stamp, red cross over it
 sel.banner	Ready to Launch		出撃準備
 hud.pochitto	Annnd...|click!		ポチっとな badge, the catchphrase whole

@@ -7,7 +7,7 @@ title.start	CHRPLY/TITLE3	144	185	66	18	menu	スタート
 title.options	CHRPLY/TITLE3	144	206	81	19	menu	オプション
 title.card	CHRPLY/TITLE3	144	229	93	18	menu	メモリーカード
 title.copy_tatsu	CHRPLY/TITLE3	4	225	76	13	menu	©タツノコプロ
-title.copy_banpre	CHRPLY/TITLE3	4	240	112	16	menu	©バンプレ企画 1996	1996 stays
+title.copy_banpre	CHRPLY/TITLE3	2	240	110	16	menu	©バンプレ企画 1996	1996 stays; © starts at x 2
 card.save	CHRPLY/TITLE4	120	16	49	18	menu	セーブ	EXIT below is English
 card.load	CHRPLY/TITLE4	120	40	49	18	menu	ロード
 card.access	CHRPLY/TITLE4	0	184	81	18	message	アクセス中	NO/YES above are English
@@ -15,7 +15,7 @@ card.save_ok	CHRPLY/TITLE4	0	208	87	18	message	セーブOK!
 card.load_ok	CHRPLY/TITLE4	0	232	87	18	message	ロードOK!
 card.this_card	CHRPLY/TITLE4	84	144	160	18	message	このメモリーカードは	line 1 of the format prompt
 card.unformatted	CHRPLY/TITLE4	72	165	184	18	message	フォーマットされてません	line 2
-card.format_q	CHRPLY/TITLE4	86	184	168	18	message	フォーマットしますか?	line 3
+card.format_q	CHRPLY/TITLE4	86	184	170	18	message	フォーマットしますか?	line 3; ? runs to x 255
 card.no_space	CHRPLY/TITLE4	96	208	160	18	message	空き容量が足りません
 card.no_data	CHRPLY/TITLE4	112	232	144	18	message	データがありません
 card.p_memory	CHRPLY/TITLE4	28	2	70	16	piece	・メモリー	pieces assembled at run time (guess); phase 5 maps the cells
@@ -23,10 +23,10 @@ card.p_inserted	CHRPLY/TITLE4	40	22	62	17	piece	差されて
 card.p_card	CHRPLY/TITLE4	40	41	62	17	piece	カードが
 card.p_imasen	CHRPLY/TITLE4	40	62	62	18	piece	(い)ません	first glyph cut
 card.p_broken	CHRPLY/TITLE4	0	80	104	19	piece	カードがこわれ	runs on into card.p_temasu
-card.p_temasu	CHRPLY/TITLE4	0	102	56	18	piece	(れ)てます	split by eye
-card.p_save	CHRPLY/TITLE4	56	102	48	18	piece	セーブ	split by eye
-card.p_load	CHRPLY/TITLE4	104	102	32	18	piece	ロード	ー squeezed; split by eye
-card.p_failed	CHRPLY/TITLE4	136	102	116	18	piece	に失敗しました	split by eye
+card.p_temasu	CHRPLY/TITLE4	0	102	56	20	piece	(れ)てます	split by eye; glyph shadows reach y 121
+card.p_save	CHRPLY/TITLE4	56	102	48	20	piece	セーブ	split by eye
+card.p_load	CHRPLY/TITLE4	104	102	32	20	piece	ロード	ー squeezed; split by eye
+card.p_failed	CHRPLY/TITLE4	136	102	116	20	piece	に失敗しました	split by eye
 promo.tk01	CHRPLY/TK_01	0	0	256	256	keep	タイムボカンシリーズ ボカンと一発!ドロンボー '96 11月発売予定!! 請う、ご期待だべぇ 定価5800円(税別)	trial advert; no file name in any code, never loaded (docs/re/graphics.md)
 opt.level1	CHRPLY2/OPTI_01	26	8	194	16	menu	ゲームレベル 1(やさしい)
 opt.level2	CHRPLY2/OPTI_01	26	40	194	16	menu	ゲームレベル 2(ふつう)
@@ -62,7 +62,7 @@ voice.02	CHRPLY2/OPTI_06	2	49	67	15	voice	あれ~っ!
 voice.03	CHRPLY2/OPTI_06	80	48	72	16	voice	爆弾用意!
 voice.04	CHRPLY2/OPTI_06	162	49	66	15	voice	きゅ~っ!
 voice.05	CHRPLY2/OPTI_06	1	65	115	15	voice	やっておしまい!
-voice.06	CHRPLY2/OPTI_06	130	64	110	16	voice	なんてことだい!
+voice.06	CHRPLY2/OPTI_06	128	64	120	16	voice	なんてことだい!	whole quad: ! runs to x 243
 voice.07	CHRPLY2/OPTI_06	2	80	94	16	voice	スカポンタン!
 voice.08	CHRPLY2/OPTI_06	106	81	132	15	voice	やられたまんねん!
 voice.09	CHRPLY2/OPTI_06	1	96	133	16	voice	これでイチコロや!
@@ -77,27 +77,27 @@ voice.17	CHRPLY2/OPTI_06	98	144	139	16	voice	あ~ん、くやしい~!
 voice.18	CHRPLY2/OPTI_06	2	161	112	15	voice	アラホラサッサ!
 voice.19	CHRPLY2/OPTI_06	129	160	98	16	voice	しゅっぱ~つ!
 voice.20	CHRPLY2/OPTI_06	2	176	69	16	voice	なぬう~!
-voice.21	CHRPLY2/OPTI_06	81	176	150	16	voice	どれを使おうかねぇ?
+voice.21	CHRPLY2/OPTI_06	80	176	152	16	voice	どれを使おうかねぇ?	whole quad: ?'s shadow is at x 231
 voice.22	CHRPLY2/OPTI_06	2	192	112	16	voice	しっかりおしよ!
 voice.23	CHRPLY2/OPTI_06	121	192	108	16	voice	オプションよぉ!
 voice.24	CHRPLY2/OPTI_06	2	208	83	16	voice	ポチっとな!
 voice.25	CHRPLY2/OPTI_06	98	208	146	16	voice	メカを選んでください	small mark left of it is not text
 voice.26	CHRPLY2/OPTI_06	2	224	97	16	voice	いったぁ~い!
 voice.27	CHRPLY2/OPTI_06	106	224	134	16	voice	それは整備中なの!
-ship.syareko	CHRPLY/SELNAME	154	2	102	28	name	シャレコーベメカ
-ship.andoro	CHRPLY/SELNAME	154	30	102	28	name	アンドロメダマ号
-ship.rakuda	CHRPLY/SELNAME	155	64	98	31	name	タイムラクーダ
-ship.sya_bagi	CHRPLY/SELNAME	152	98	104	24	name	シャレコーベバギー
-ship.denden	CHRPLY/SELNAME	156	127	90	26	name	デンデンメカ
-ship.doron	CHRPLY/SELNAME	152	159	104	28	name	ドロンジョカー
-ship.boya	CHRPLY/SELNAME	154	191	102	26	name	ボヤッキーカー
-ship.tonzr	CHRPLY/SELNAME	152	223	104	28	name	トンズラーカー
-ship.gaikotu	CHRPLY/SELNAME	64	220	88	34	name	ガイコッツ
+ship.syareko	CHRPLY/SELNAME	152	0	104	31	name	シャレコーベメカ	ship names: the whole 31 px quad band (outlines reach its edges)
+ship.andoro	CHRPLY/SELNAME	152	32	104	31	name	アンドロメダマ号
+ship.rakuda	CHRPLY/SELNAME	152	64	104	31	name	タイムラクーダ
+ship.sya_bagi	CHRPLY/SELNAME	152	96	104	31	name	シャレコーベバギー
+ship.denden	CHRPLY/SELNAME	152	128	104	31	name	デンデンメカ
+ship.doron	CHRPLY/SELNAME	152	160	104	31	name	ドロンジョカー
+ship.boya	CHRPLY/SELNAME	152	192	104	31	name	ボヤッキーカー
+ship.tonzr	CHRPLY/SELNAME	152	224	104	31	name	トンズラーカー
+ship.gaikotu	CHRPLY/SELNAME	64	220	88	35	name	ガイコッツ
 sel.gameover	CHRPLY/SELNAME	0	77	82	22	label	ゲームオーバー	NO CREDIT plate below is English
-sel.join_ok	CHRPLY/SELNAME	2	118	62	28	label	参加OK
+sel.join_ok	CHRPLY/SELNAME	2	118	77	30	label	参加OK	rect takes OK too (quad ends at x 79)
 sel.repair	CHRPLY/SELNAME	0	214	56	40	stamp	整備中	red cross over it
-sel.banner	CHRPLY/SEL_BG	16	144	168	32	banner	出撃準備
-hud.pochitto	CHRPLY/KIHON	198	96	26	26	badge	ポチっとな	not reached yet (docs/re/state.md)
+sel.banner	CHRPLY/SEL_BG	24	144	160	46	banner	出撃準備	four 40x48 tiles; glyphs run to y 188
+hud.pochitto	CHRPLY/KIHON	194	96	32	27	badge	ポチっとな	not reached yet (docs/re/state.md); glyphs x 194-225
 hud.wait	CHRPLY/KIHON	226	174	30	34	badge	ちょっと待ってね!	split across the page edge; not reached yet
 hud.pick_mecha	CHRPLY/KIHON	182	214	56	20	label	◀メカをえらんで	not reached yet
 hud.gameover	CHRPLY/KIHON	176	234	64	22	label	ゲームオーバー
@@ -126,7 +126,7 @@ st5.sign_small	ST5/BG/ST5_B2	160	200	96	20	sign	火器厳禁	small grey sign, re
 st5.stop	ST5/BG/ST5_SA0	0	152	72	26	sign	とまれ	street sign
 boss5.plate1	ST5/ENM/R5_BOSS2	70	228	90	28	sign	罪を憎んで、	speech plate
 boss5.plate2	ST5/ENM/R5_BOSS2	160	228	96	28	sign	人を憎まず。	speech plate
-boss5.anger	ST5/ENM/R5_BOSS4	0	216	28	40	sign	怒	kanji on the robot
+boss5.anger	ST5/ENM/R5_BOSS4	0	216	32	40	sign	怒	kanji on the robot
 end0.r00	CHRPLY2/END_STF0	0	0	244	16	credit	声の出演 ドロンジョ ボヤッキー トンズラー ドクロベー	cell sheet: lines are composed from cells at run time; phase 5 maps them (desu-yo docs/re/cells.md)
 end0.r01	CHRPLY2/END_STF0	0	16	228	16	credit	アニメ制作スタッフ 総監督・絵コンテ
 end0.r02	CHRPLY2/END_STF0	0	34	248	12	credit	演出 ゲストメカ設定 プロデューサー 制作進行 作画監督

@@ -71,6 +71,14 @@ def test_forced_inks_clear_gradient_and_patch_from_above():
     assert (b[8:16, 2:42][keep] == a[0:8, 2:42][keep]).all() and (b[:8] == a[:8]).all()
 
 
+def test_inpaint_takes_neighbours_and_keeps_the_rest():
+    cell = np.array([[1, 9, 9, 2], [3, 9, 4, 5]])
+    gfx.inpaint(cell, cell == 9)
+    assert 9 not in cell and cell[0, 0] == 1 and cell[0, 3] == 2 and cell[1].tolist() == [3, 4, 4, 5]
+    with pytest.raises(ValueError):
+        gfx.inpaint(np.full((2, 2), 9), np.ones((2, 2), bool))
+
+
 def test_row_inks_name_real_rows():
     ids = {r.id for r in gfx_script.rows()}
     assert set(gfx.ROW_INKS) <= ids and set(gfx.CLEARS) <= ids

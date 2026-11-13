@@ -207,6 +207,16 @@ def english(exe, sheet_data, log=None):
         cols = np.flatnonzero(frame.any(axis=0))
         return frame[:, cols[0]:cols[-1] + 1]
 
+    def outline(p, line):
+        """(ink, halo) of p padded 1 px all round; the halo is empty when line is 0 (no outline)."""
+        p = np.pad(p, 1)
+        halo = np.zeros_like(p)
+        if line:
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    halo |= np.roll(np.roll(p, dy, 0), dx, 1)
+        return p, halo & ~p
+
     texts = [p.strip() for e in en.values() if e for p in e.split("|")]
     rows = np.flatnonzero(np.logical_or.reduce([ink(t).any(axis=1) for t in texts]))
     band0, band = rows[0], rows[-1] - rows[0] + 1  # rows every line's ink falls in, so lines share one baseline
@@ -223,28 +233,38 @@ def english(exe, sheet_data, log=None):
         vals, cnt = np.unique(old[old != 0], return_counts=True)
         fill = int(vals[cnt.argmax()])
         parts = [ink(p.strip()) for p in en[n].split("|")]
-        if len(parts) > len(g):  # join the tail into the last entry's strip
-            gap = np.zeros((parts[0].shape[0], tl_check.CREDIT_GAP), bool)
+        # role and heading glyphs are bright (15) with a dark outline (11) in the page's CLUT row; names flat white (1)
+        lined = len(parts) if kind in ("role", "head") else 1 if kind == "role+name" else 0
+        two = {11, 15} <= set(vals.tolist())
+        styles = [(15, 11) if i < lined and two else (1 if kind == "role+name" else fill, 0) for i in range(len(parts))]
+        parts = [(np.dstack(outline(p, s[1])), s) for p, s in zip(parts, styles)]  # [h, w, (ink, halo)]
+        if len(parts) > len(g):  # join the tail into the last entry's strip (one style: the tail's first)
+            gap = np.zeros((parts[0][0].shape[0], tl_check.CREDIT_GAP, 2), bool)
             tail = parts[len(g) - 1:]
-            parts = parts[:len(g) - 1] + [np.hstack([a for p in tail for a in (p, gap)][:-1])]
-        inked = sum(p.shape[1] for p in parts)
+            parts = parts[:len(g) - 1] + [(np.hstack([a for p, _ in tail for a in (p, gap)][:-1]), tail[0][1])]
+        inked = sum(p.shape[1] for p, _ in parts)
         gap = tl_check.CREDIT_GAP
         if len(parts) > 1 and inked + gap * (len(parts) - 1) > ROOM:  # page x can't go below 0 (u8)
             gap = max(8, (ROOM - inked) // (len(parts) - 1))
-        width = inked + gap * (len(parts) - 1)
+        # a copyright line split as its entries keeps their x (the Tatsunoko mark sits between (C) and the name)
+        offs = [e.x - g[0].x for e in g] if kind == "copy" and len(parts) == len(g) else [0] * len(parts)
+        pos, dx = [], 0
+        for (p, _), o in zip(parts, offs):
+            pos.append(max(dx, o))
+            dx = pos[-1] + p.shape[1] + gap
+        width = dx - gap
         x0, x1 = g[0].x, g[-1].x + g[-1].w
         x = (x0 + x1 - width) // 2 if kind == "head" or pi in (0, 15) else x0
         x = max(0, min(x, ROOM - width))
         if x + width > ROOM:
             raise ValueError(f"credit {n}: {width} px, room {ROOM}")
         y = g[0].y + (g[0].h - band) // 2 - band0
-        ents, dx = [], 0
-        for p in parts:
-            r = np.flatnonzero(p.any(axis=1))
-            key = (f, p[r[0]:r[-1] + 1].tobytes(), p.shape[1], fill)
-            strips[key] = (p[r[0]:r[-1] + 1], fill)
-            ents.append((key, dx, y + r[0]))
-            dx += p.shape[1] + gap
+        ents = []
+        for (p, (fill, line)), dx in zip(parts, pos):
+            r = np.flatnonzero(p.any(axis=(1, 2)))
+            key = (f, p[r[0]:r[-1] + 1].tobytes(), p.shape[1], fill, line)
+            strips[key] = (p[r[0]:r[-1] + 1], fill, line)
+            ents.append((key, dx, y - 1 + r[0]))  # -1: outline() pads a row above the ink
         placed.append([pi, g, n, x, width, ents])
     rows = {}
     for ln in placed:
@@ -261,16 +281,17 @@ def english(exe, sheet_data, log=None):
                 raise ValueError(f"credits {a[2]} and {b[2]} overlap on page {pi}")
     at = {}
     for f in SHEETS:
-        mine = [(k, s.shape[1], s.shape[0]) for k, (s, _) in strips.items() if k[0] == f]
+        mine = [(k, s.shape[1], s.shape[0]) for k, (s, *_) in strips.items() if k[0] == f]
         at.update(pack(mine, keep[f]))
         cleared = np.zeros_like(px[f])
         for kx, ky, kw, kh in keep[f]:
             cleared[ky:ky + kh, kx:kx + kw] = px[f][ky:ky + kh, kx:kx + kw]
         px[f] = cleared
-    for k, (s, fill) in strips.items():
+    for k, (s, fill, line) in strips.items():
         u, v = at[k]
         cell = px[k[0]][v:v + s.shape[0], u:u + s.shape[1]]
-        cell[s] = fill
+        cell[s[..., 1]] = line
+        cell[s[..., 0]] = fill
     out = bytearray(exe)
     for pi, g, n, x, _, ents in placed:
         for e, (key, dx, y) in zip(g, ents + [ents[-1]] * (len(g) - len(ents))):

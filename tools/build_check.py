@@ -27,8 +27,14 @@ RING = 6  # px around a rect searched for leftover ink
 # Pixels of a row's fill index beside its rect that are art, read zoomed on row_sheet.py crops (2026-11-14): title panel
 # frame, the ranking skull, the voice list's side marks, the steel of the STOP sign, the song plates' bevel and bolts
 # (song.13's plate has fewer). Exact counts, so a new leftover glyph piece in one of these rows still fails.
-ART_NEAR_RECT = {"title.start": 78, "title.card": 894, "rnk.ranking": 62, "rnk.score": 63, "voice.06": 27,
-                 "voice.21": 6, "st5.stop": 707} | {f"song.{i:02}": 645 if i == 13 else 658 for i in range(1, 21)}
+ART_NEAR_RECT = {"title.start": 78, "title.card": 894, "rnk.ranking": 62, "rnk.score": 63,
+                 "st5.stop": 707,
+                 # read zoomed on row_sheet crops (phase 8): panel bars, plate frames and bubbles, no glyph pieces
+                 "card.p_broken": 41, "card.p_save": 17, "card.p_load": 54, "card.p_failed": 147, "sel.banner": 78,
+                 "sel.gameover": 377, "sel.join_ok": 65, "sel.repair": 38, "hud.pochitto": 179, "hud.wait": 29,
+                 "hud.pick_mecha": 135, "st5.safety": 189, "st5.sign_small": 382, "boss5.plate1": 260,
+                 "boss5.plate2": 267, "wep.sfx": 127, "logo.trial": 227,  # burst lines; the stamp's rotated frame
+                 } | {f"song.{i:02}": 645 if i == 13 else 658 for i in range(1, 21)}
 
 
 def allowed_rects():
@@ -47,6 +53,21 @@ def exe_ranges():
     return ok
 
 
+def near_box(budget, rect):
+    """Where leftover ink of a row is looked for: the smallest drawn box holding its rect; else the bounding box of the
+    drawn boxes it overlaps (a rect poking 1 px out of its quad); else, never drawn, the rect and its ring."""
+    x, y, w, h = rect
+    boxes = [tuple(map(int, u.split(","))) for u in budget["uv"].split(";")] if budget and budget["uv"] else []
+    held = [b for b in boxes if b[0] <= x and b[1] <= y and x + w <= b[0] + b[2] and y + h <= b[1] + b[3]]
+    if held:
+        return min(held, key=lambda b: b[2] * b[3])
+    over = [b for b in boxes if b[0] < x + w and x < b[0] + b[2] and b[1] < y + h and y < b[1] + b[3]]
+    if over:
+        x0, y0 = min(b[0] for b in over), min(b[1] for b in over)
+        return x0, y0, max(b[0] + b[2] for b in over) - x0, max(b[1] + b[3] for b in over) - y0
+    return x - RING, y - RING, w + 2 * RING, h + 2 * RING
+
+
 def leftovers(name, old, new, t, items, by_id, budgets):
     """Original text ink left beside a row's rect, inside the box the game draws: a rect that missed part of a glyph."""
     errs = []
@@ -55,7 +76,7 @@ def leftovers(name, old, new, t, items, by_id, budgets):
         if not row[1]:  # a clear-only rect (gfx.CLEARS)
             continue
         o = by_id[rid]
-        (x, y, w, h), box = row[0], gfx.uv_box(budgets[rid], row[0]) if rid in budgets else row[0]
+        (x, y, w, h), box = row[0], near_box(budgets.get(rid), row[0])
         near = np.zeros(old.shape, bool)
         near[max(y - RING, box[1], 0):min(y + h + RING, box[1] + box[3]), max(x - RING, box[0], 0):min(x + w + RING, box[0] + box[2])] = True
         for rx, ry, rw, rh in taken:
