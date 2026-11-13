@@ -57,6 +57,26 @@ def test_typeset_stays_in_rect_and_refuses_overflow():
     gfx.typeset(data, [((2, 2, gfx.row_width("Ok", "tag"), 12), "Ok", "tag", "c")])  # exactly full fits
 
 
+def test_forced_inks_clear_gradient_and_patch_from_above():
+    data = tim16()
+    t = tim.parse(data)
+    px = lambda d: np.array(tim.pixels(t, d)).reshape(16, 64)  # noqa: E731
+    a = px(data)
+    b = px(gfx.typeset(data, [((4, 2, 8, 4), "", "tag", "c", gfx.Inks(9, 9, True, 9))]))
+    assert (b[2:6, 4:12] == 9).all() and (b[:2] == a[:2]).all() and (b[6:] == a[6:]).all()
+    b = px(gfx.typeset(data, [((2, 2, 40, 12), "Ok", "tag", "c", gfx.Inks((3, 7), 1, True, 0))]))
+    assert set(np.unique(b[2:8, 2:42])) <= {0, 1, 3} and set(np.unique(b[8:14, 2:42])) <= {0, 1, 7}
+    b = px(gfx.typeset(data, [((2, 8, 40, 8), "Ok", "tag", "c", gfx.Inks(15, 1, True, "above"))]))
+    keep = ~np.isin(b[8:16, 2:42], (1, 15))
+    assert (b[8:16, 2:42][keep] == a[0:8, 2:42][keep]).all() and (b[:8] == a[:8]).all()
+
+
+def test_row_inks_name_real_rows():
+    ids = {r.id for r in gfx_script.rows()}
+    assert set(gfx.ROW_INKS) <= ids and set(gfx.CLEARS) <= ids
+    assert all(i.fill != 0 for i in gfx.ROW_INKS.values())  # index 0 is see-through on the PS1
+
+
 def test_inks_come_from_inside_the_strokes():
     clut = [0] * 16
     clut[1], clut[2] = 0x001F, 0x7FFF  # red, white

@@ -14,7 +14,7 @@ run while a line is unticked.
 - [ ] `voice.03` 爆弾用意 "Bombs up!" reads oddly (codex); "Ready the bombs!" is over its 72 px quad, as above.
 - [ ] Song titles are our own English (no official ones); `song.17` Zorozoro and `song.18` Patoru! de SHOW keep
   their sound. Reading of ぱとる unchecked.
-- [ ] `st5.sign_small` reading 人命尊重 unsure (phase 4); "Life First" follows that reading.
+- [x] `st5.sign_small` reading 人命尊重 unsure (phase 4): read zoomed in phase 8, it is 火器厳禁 (the 火's dots show); now "No Flames".
 - [ ] `wep.sfx` "KA-|BOOM" and `hud.wait`, `hud.pick_mecha`, `boss5.*`, `st5.safety`, `card.p_broken`-`p_failed`,
   `logo.trial` were never drawn in any dump: their layout is a guess until phase 8 sees them.
 - [ ] Phase 6 review minors: `hud.pick_mecha` "< Pick a mecha" in `badge` is 6 px tall (try "< Pick|a mecha");

@@ -269,11 +269,41 @@ ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "
             "card.save": Inks(MENU_BLUE, 15), "card.load": Inks(MENU_BLUE, 15),
             **{f"opt.{k}": Inks(15, 1) for k in ("level1", "level2", "level3", "level4", "credit", "sound", "keys",
                                                  "shot", "bomb")},
-            "ship.rakuda": Inks(10, 15), "st5.stop": Inks(15, 10, bg="above")}
+            "st5.stop": Inks(15, 10, bg="above"), "sel.repair": Inks(15, 1, False),
+            # ship select: each name's light ink on the white outline, as the Japanese (sampling striped them)
+            **{f"ship.{k}": Inks(i, 15) for k, i in (("syareko", 14), ("andoro", 4), ("rakuda", 10), ("sya_bagi", 8),
+                                                    ("denden", 6), ("doron", 14), ("boya", 6), ("tonzr", 8),
+                                                    ("gaikotu", 12))},
+            "sel.gameover": Inks(14, 15), "sel.join_ok": Inks(6, 15),
+            # card messages: short ones blue on white as the menu, sentences white on dark blue
+            **{f"card.{k}": Inks(MENU_BLUE, 15) for k in ("access", "save_ok", "load_ok")},
+            **{f"card.{k}": Inks(15, 14) for k in ("this_card", "unformatted", "format_q", "no_space", "no_data")},
+            "hud.pochitto": Inks(15, 1), "hud.wait": Inks(10, 12), "boss5.anger": Inks(6, 1),
+            "st5.safety": Inks(6, 15, bg=15), "st5.sign_small": Inks(11, 1, bg=8),
+            **{f"tag.{k}": Inks(15, 1) for k in ("andoro", "boya", "denden", "doron", "gaikotu", "rakuda", "syareko",
+                                                "sya_bagi", "tonzr", "tyarinko")}}  # white on the dark tag bar
 SONG_INKS = Inks(15, 1, bg="row")  # white, as the Japanese titles, on each row's own plate colour
 # row id: ((x, y, w, h, background index), ..) cleared beside the row, for glyph pieces an art piece keeps its rect from
 # reaching: the tail of スコア's ス sits under the ranking skull (x 108-125, y 96-110).
 CLEARS = {"rnk.score": ((118, 112, 8, 14, 0),)}
+
+
+def stamp_x(data):
+    """SELNAME with 整備中 gone and the X it lay on redrawn. The art mirrors about y 235.5 and each arm steps 1 px a
+    row, so clean row 226 gives every covered row (227-244). Only the row's own rect changes; the English is lettered
+    on it with clear off (ROW_INKS)."""
+    t = tim.parse(data)
+    px = tim_px(t, data)
+    x, y, w, h = next((r.x, r.y, r.w, r.h) for r in gfx_script.rows() if r.id == "sel.repair")
+    top = 226
+    for row in range(top + 1, 236):
+        k = row - top
+        drawn = np.zeros(px.shape[1], dtype=px.dtype)
+        drawn[7:10], drawn[45:48] = px[top, 7:10], px[top, 45:48]
+        drawn[13 + k:23 + k] = px[top, 13:23]
+        drawn[33 - k:43 - k] = px[top, 33:43]
+        px[row, x:x + w] = px[471 - row, x:x + w] = drawn[x:x + w]
+    return tim.with_pixels(t, data, px.reshape(-1).tolist())
 
 
 def no_card(data):

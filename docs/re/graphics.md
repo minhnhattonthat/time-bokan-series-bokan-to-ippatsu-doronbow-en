@@ -47,7 +47,7 @@ row reading 茱 is 茶 (茶風林).
 | File | Japanese elements |
 |---|---|
 | `CHRPLY2/TI_ST1-7` | stage titles (English STAGE n / VS hero lines already): 1 鷹は舞い下りた! だコロン; 2 南の島のヤッターキング! だコロン; 3 真昼の決闘! 崖っぷちだよ、ゼンダマン; 4 集結! 助っ人メカ 雪原の大バトル!; 5 怒れ! 正義の大巨神!; 6 灼熱のダブルヒーロー!; 7 飛べ!ドロンボー 空中大決戦 だペッチャ! |
-| `ST5/BG/ST5_B2` | road signs 安全第一, small 人命尊重(?) |
+| `ST5/BG/ST5_B2` | road signs 安全第一, small 火器厳禁 (phase 8 reading; 火の… beside it is cut off) |
 | `ST5/BG/ST5_B3` | phase 4, zoomed 4x: the green plate (x 104-128, y 136-160) is stripes, not kanji. No text; in `script/no_text.txt` |
 | `ST5/BG/ST5_SA0` | street sign とまれ (English billboard YATTO DETA / BEER, TATSUNOKO sign in `ST5_A6`) |
 | `ST5/ENM/R5_BOSS2` | speech plates 罪を憎んで / 人を憎まず |

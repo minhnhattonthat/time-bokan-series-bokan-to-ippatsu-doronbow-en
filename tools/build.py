@@ -72,6 +72,8 @@ def build(out=None, identity=False, marker=False, spike=False, movies=True):
         if not d.is_xa(e):
             name = e.path.strip("/").removesuffix(".BIN")
             data = whole.pop(name) if name in whole else rebuild(d.read(e.path))
+            if mode is None and name == "CHRPLY/SELNAME":
+                data = gfx.stamp_x(data)
             if name in rects:
                 data = (gfx.marked if marker else gfx.typeset)(data, rects.pop(name))
             if mode is None and name == "CHRPLY/TITLE4":
