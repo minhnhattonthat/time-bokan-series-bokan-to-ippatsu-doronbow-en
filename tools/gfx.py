@@ -265,6 +265,8 @@ CANVAS_PIECES = ((32, 0, 64, 40, 0), (40, 40, 64, 40, 64))  # TIM x, y, w, h, ca
 # row id: Inks, for rows whose sampled inks fail, read on row_sheet.py crops. Title and card menus: the Japanese blue
 # gradient with the white outline (sampling took the dark green shadow); options: white on black (sampling alternated).
 MENU_BLUE = (2, 3, 4, 5, 6)  # TITLE3/TITLE4 cyan to blue
+# rows the Japanese starts on one column (title menu at x 144, card menu at x 120 with EXIT), so left, not centred
+LEFT = {"title.start", "title.options", "title.card", "card.save", "card.load"}
 ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "card")},
             "card.save": Inks(MENU_BLUE, 15), "card.load": Inks(MENU_BLUE, 15),
             **{f"opt.{k}": Inks(15, 1) for k in ("level1", "level2", "level3", "level4", "credit", "sound", "keys",
@@ -356,7 +358,7 @@ def english_items():
         grown[r.id] = rect
         for *c, bg in CLEARS.get(r.id, ()):
             yield r.id, r.file, (tuple(c), "", form, "c", Inks(bg, bg, True, bg))
-        row = (rect, e["en"], form, "l" if r.id.startswith("song.") else "c")
+        row = (rect, e["en"], form, "l" if r.id.startswith("song.") or r.id in LEFT else "c")
         inks = ROW_INKS.get(r.id, SONG_INKS if r.id.startswith("song.") else None)
         if inks:
             row += (inks,)

@@ -23,3 +23,5 @@ run while a line is unticked.
   (credit font is ASCII; restore if a heart glyph is added).
 - [ ] Tonzra ends 8 movie lines on ", I tell ya" (MOVE01.5, .19; MOVE02.18; MOVE03.18; MOVE04.2, .23; MOVE05.4,
   .13): vary a few. MOVE04.2's ` || ` split should land on the Boyacky/Tonzra voice change.
+- [ ] Stage 6 card header reads "VS IPPATUMAN" (the game's own English); glossary spells Ippatsuman. Redraw it if the
+  card TIM allows (phase 8 codex note; the original shows the same).

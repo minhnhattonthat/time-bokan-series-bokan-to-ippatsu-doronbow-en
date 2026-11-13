@@ -2,29 +2,48 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 8. QA in the emulator next (phase 7 insert/fit/check done 2026-11-14).
-- **Phase 7 (done 2026-11-14):** phase 6 review had 0 Critical/Important; Minors 1, 4, 5, 6 applied, the rest in
-  `docs/polish.md`. `tools/build.py` (no flag) builds the English disc: `gfx.english_items` (rects widened inside the
-  drawn box, CLUT row from budgets; song rects take the whole plate, white on each row's own plate colour),
-  `gfx.no_card` (one 128x40 canvas cut over the two TITLE4 quads), `credits.english` (staff roll repacked, page table
-  rewritten in place, D15, `docs/re/credits.md`), card title via `script_text.encode`, movies via
-  `fmv_burn.burn_all(tl_check.subs)`. Gate `tools/build_check.py`: **0 findings** (51253 sectors in 37 files + 6
-  movies; EXE changes only in the page table and card title, romdiff). `check.py` 41 passed (new: credit pack test,
-  English build passes build_check). Smoke ok. Build sha1 (Track 01) `41e4acc0d409ab3b76d8d195943814b439640434`.
-  Warp on build/ 8/8 ok (title, menu, options, sound, memcard_nocard, card1, staff, movie01; `work/qa/warp_en`):
-  English shows on the title menu, options, stage card, a movie subtitle and the staff roll.
-- **Phase 8 must look at (seen on row_sheet crops / first shots, not fixed):**
-  - Movies: requant on most subtitled frames, qscale +6 to +12 (MOVE04 1390 of 1472). Check blockiness; if bad,
-    re-quantise only macroblocks off the text, as phase 5 planned.
-  - Inks: title menu and options rows come out striped/low contrast (fill per row off a gradient); `hud.gameover`
-    stripes (desu-yo used `Inks(15, 10)`); ship names (e.g. `ship.rakuda`) pale on pale. Add `gfx.ROW_INKS`.
-  - `st5.stop`: the clear leaves a flat band on the steel texture (inpaint, desu-yo `gfx.inpainted`).
-  - `build_check.ART_NEAR_RECT` holds exact counts of fill-index pixels beside rects read as art (title panel frame,
-    rnk skull, voice side marks, song bevels, st5 steel): confirm in game. Staff roll page 15 head is drawn in blue (game CLUT).
-  - Short subtitles: `MOVE03.9` "Hey, now!" shows 0.6 s, `MOVE04` "We did it!" 14 frames (next row cuts `MIN_SHOW`);
-    recheck with exact frame times.
-  - Sound scene final shot shows "It's under repair!" on the options list: check which row that is.
+- **Phase:** 8. QA in progress: tour + codex verdicts done on build `bdf75c7a`, fix list below open.
+- **Phase 8 so far (2026-11-14, resume here):**
+  - Phase 7 review fixed (commit 2d1c3c3): rects grown (`ship.rakuda`, `hud.gameover`, `rnk.score`, `st5.stop`,
+    `wep.sfx`), ス's tail under the skull cleared by `gfx.CLEARS`; `build_check.ART_NEAR_RECT` = exact per-row art
+    pixel counts (no whole-row exemption); EXE romdiff gets the build's write log (`build.english_files(d, log)`);
+    `english_items` checks grown rects against grown rects; `fmv_burn` docstring.
+  - Inks (`gfx.ROW_INKS`, `Inks.fill` may be None = sampled or a tuple = gradient; `bg="above"` copies the patch
+    above the rect): title/card menus `MENU_BLUE` + white outline, options white on black, ship names and sel
+    labels solid on white, card messages, badges, tags (white on the bar), st5 signs. `gfx.stamp_x` redraws the X
+    under 整備中. `st5.sign_small` reads 火器厳禁 ("No Flames"). Uncommitted: `gfx.LEFT` (title and card menu rows
+    left-aligned on the Japanese column) - not built or toured yet.
+  - Tools: `qa_sheets.py`, `row_cover.py`, `rect_spill.py` (+`rectcover.py`) from desu-yo; `fmv_sheet.py --subs`
+    (one frame per subtitle, `moveNN_PP_sheet.png`); **`qa_codex.py CHUNK OUT.tsv`**: independent verdicts by
+    `codex exec -s read-only` with the sheets + `work/qa/tsheets_jp/<id>.png` attached, brief `docs/visual-qa-brief.md`
+    (~2.5 min a chunk of 6). `rect_spill.py` 0 rows to grow.
+  - Build `bdf75c7a940d8dac18aadce8ad6a9c9dfb02a79e` (Track 01): build_check 0, smoke ok, `check.py` 43 passed.
+    Tour `work/qa/tour` 55/55 ok (`--prims`); sheets in `work/qa/tsheets` (94 + `rows_unshown_sheet`), original's
+    in `work/qa/tsheets_jp` (from `work/qa/warp`). Manifest `work/qa/manifest.tsv`, verdicts `work/qa/verdicts/codex_*`.
+    Movies: 19 sheets ok (subtitles clean, frames slightly soft: no macroblock-selective requant needed).
+    Text coverage: `row_cover.py work/qa/prims_rows.tsv work/recon/prims_rows.tsv` 103/124 drawn, 21 waived in
+    `docs/text_unshown.tsv`; `textcover.py work/qa/cover work/qa/cover/strings.tsv --waive docs/text_unshown.tsv`
+    exit 0. `rows_unshown_sheet` has no verdict yet.
+  - **Codex issues to fix (then rebuild, re-tour those scenes, `qa_sheets`, `qa_gate init`, re-verdict changed):**
+    - `sel.join_ok`: the original's orange "K" of 参加OK stays right of "JOIN IN!" (select*, join2p, clear*): grow the
+      rect over OK (phase 5 limit said so) or keep OK.
+    - `sel.banner` 出撃準備 → READY TO LAUNCH: the scattered launch tiles in clear* sheets keep Japanese fragments; the
+      banner is cut into tiles elsewhere in SEL_BG (find every tile of it: `tools/ink_boxes.py`, `prims.py rows`).
+    - Voice captions (sound test, `voice.*`, yellow): horizontal stripes (sampled fill alternates): add ROW_INKS for
+      all voice rows (solid yellow + dark outline). `voice.21` "Now, which to use?" has a stray vertical mark after
+      it: its 6 `ART_NEAR_RECT` px at x 231 may be the Japanese "?" - check zoomed, grow the rect if so.
+    - Staff roll: role headings in dark blue/red/green are hard to read on black (staff_5,6,10,11,13,15,16, clear_6-9):
+      `credits.english` letters each line in its own darkest ink; take the line's brightest ink (the Japanese has a
+      highlight). Last page: the white mascot overlaps "Tatsunoko Pro" (staff_18, clear_9): move or shorten that line.
+    - No-card message (`gfx.no_card`, memcard_4/5): pale outline on the tan plate: force a dark outline.
+    - Stage 6 card header "VS IPPATUMAN" is the game's own English (glossary: Ippatsuman). Same in the original: ok,
+      but could be redrawn; note in polish.
+  - Carried: short subtitles `MOVE03.9` "Hey, now!" 0.6 s, `MOVE04` "We did it!" 14 frames (next row cuts
+    `MIN_SHOW`); subtitle times are Whisper's, not exact frames. "It's under repair!" in the sound scene is `voice.27`.
+  - Not done yet for phase 8: `inkbox.py` on menu rows (title, options) after `gfx.LEFT`; every chapter card, game
+    over and credits zoomed in a cold-boot shot (the sheets cover them; zoom on the fixes).
 - **Done:**
+  - Phase 7 (2026-11-14, commit 2cfc767): `tools/build.py` builds the English disc (graphics rows, no-card canvas, staff roll repack, card title, movies); `build_check` 0 findings; its review's findings fixed in phase 8 (above).
   - Step 0: dump pinned (`rom.sha1`, 23 files), pre-commit hook in `tools/hooks` (a failing test blocked a commit), guard blocks `sed -i`, `tools/skill.py` prints the skill path, smoke boots the original disc on `tools/pcsx` and a scripted Start skips the opening FMV to the title. Not tested: GUI keyboard input (headless run). Tools copied from desu-yo: `disc.py`, `tim.py` (+ `best_clut`, `png ... auto`), `tim_sheets.py`, `tim_survey.py`, `str_frames.py`, `strings_scan.py`, `vram.py`, `tbl.py`, `bps.py`, `romdiff.py`. New: `sjis_scan.py`.
   - Phase 1: `docs/re/disc.md` (22 tracks, 188 TIMs, 7 stage overlays, 6 STR movies, DA = CD audio), `text.md` (no encoding; only Shift-JIS is the memory card title at EXE 0x8FA60, byte-swapped words), `graphics.md` (every Japanese TIM element by screen, read zoomed). FMVs sampled every 3 s: spoken dialogue, no captions. `tests/test_recon.py` holds the layout and the single-string finding.
   - Phase 2: `tools/debug/warp_all.py` runs 54 scenes from cold boot, **54/54 ok** (2026-11-13), shots in `work/qa/warp/<scene>`, every final shot read on one sheet. Scenes: logo, movies, title, menu, demo, ranking table, options (rows, every value `optvals`, sound test = 20 songs + voice lines), every memory card message but the corrupt-save pair (`tools/mcd.py` blank/full/unformatted cards, `NOCARD=1`), continue prompt + taking it, 2P join (`P2=1` plugs pad 2), game over, cards/stages/clears/selects 1-7, `tour1-7` (GOD + shot held through each stage to its boss arena; stage 3's boss dies and MOVE03 plays; clear7 runs ending, staff roll, MOVE06). God mode = HP 0x800D7D4C pinned (`--god`). Map: `docs/re/state.md`. Tests: `tests/test_debug.py` (families, card/var scenes, card checksums).
