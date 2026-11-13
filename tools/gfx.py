@@ -241,9 +241,22 @@ def typeset(data, rows):
             if forced[0].bg == "above":  # textured plate: the rect takes the same-size patch just above it
                 px[y:y + h, x:x + w] = px[y - h:y, x:x + w]
                 clear = False
+            elif isinstance(forced[0].bg, tuple) and forced[0].bg[0] == "plate":  # a balloon plate: refill its inside
+                cell0 = px[y:y + h, x:x + w]
+                solid = np.pad(cell0 != 0, 1)
+                inside = solid[1:-1, 1:-1] & solid[:-2, 1:-1] & solid[2:, 1:-1] & solid[1:-1, :-2] & solid[1:-1, 2:]
+                cell0[inside] = forced[0].bg[1]  # the plate's border pixels (next to see-through 0) stay
+                clear = False
             elif isinstance(forced[0].bg, tuple):  # art behind the glyphs: erase only these indices, keep the rest
                 cell0 = px[y:y + h, x:x + w]
-                inpaint(cell0, np.isin(cell0, forced[0].bg))
+                if forced[0].bg[0] == "glyph":  # ("glyph", core, ring): the core indices, and ring ones touching them
+                    core = np.isin(cell0, forced[0].bg[1])
+                    near = np.pad(core, 1)
+                    near = np.logical_or.reduce([near[1 + dy:h + 1 + dy, 1 + dx:w + 1 + dx]
+                                                 for dy in (-1, 0, 1) for dx in (-1, 0, 1)])
+                    inpaint(cell0, core | (near & np.isin(cell0, forced[0].bg[2])))
+                else:
+                    inpaint(cell0, np.isin(cell0, forced[0].bg))
                 clear = False
             elif forced[0].bg == "row":  # each row's commonest non-text index of the rect itself (plates with bevels)
                 cell0 = px[y:y + h, x:x + w]
@@ -304,7 +317,7 @@ ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "
             **{f"ship.{k}": Inks(i, 15) for k, i in (("syareko", 14), ("andoro", 4), ("rakuda", 10), ("sya_bagi", 8),
                                                     ("denden", 6), ("doron", 14), ("boya", 6), ("tonzr", 8),
                                                     ("gaikotu", 12))},
-            "sel.gameover": Inks(14, 15, bg=(14, 15)), "sel.join_ok": Inks(6, 15),  # gameover: keep its bubble art
+            "sel.gameover": Inks(14, 15, bg=("glyph", (14,), (15,))), "sel.join_ok": Inks(6, 15),  # gameover: keep its bubble art
             "sel.banner": Inks(15, 13, bg=(10, 14, 15)),  # erase the white glyphs and their shadow, keep the plates
             # card messages: short ones blue on white as the menu, sentences white on dark blue
             **{f"card.{k}": Inks(MENU_BLUE, 15) for k in ("access", "save_ok", "load_ok")},
@@ -312,7 +325,10 @@ ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "
                                                   "p_broken", "p_temasu", "p_save", "p_load", "p_failed")},
             # sound test voice captions: solid yellow (sampling took the shadow on some rows, so the letters striped)
             **{f"voice.{i:02}": Inks(5, 1, shadow=1) for i in range(1, 28)},
-            "hud.pochitto": Inks(15, 1, bg=(15, 1, 2), shadow=1),  # erase the glyphs, keep the round red badge "hud.wait": Inks(10, 12), "boss5.anger": Inks(6, 1),
+            "hud.pochitto": Inks(15, 1, bg=(15, 1, 2), shadow=1),  # erase the glyphs, keep the round red badge
+            "logo.trial": Inks(49, 3, bg=(49, 3, 18, 48)),  # the red kanji and their shades off the rotated stamp
+            "hud.wait": Inks(15, 13, bg=("plate", 10)),  # white on orange, as the Japanese, on the yellow plates
+            "boss5.anger": Inks(6, 1),
             "st5.safety": Inks(6, 15, bg=15), "st5.sign_small": Inks(11, 1, bg=8),
             **{f"tag.{k}": Inks(15, 1) for k in ("andoro", "boya", "denden", "doron", "gaikotu", "rakuda", "syareko",
                                                 "sya_bagi", "tonzr", "tyarinko")}}  # white on the dark tag bar

@@ -22,7 +22,10 @@ def main():
     ap.add_argument("--jp", default=str(ROOT / "work" / "qa" / "tsheets_jp"))
     a = ap.parse_args()
     rows = [ln.split("\t") for ln in Path(a.chunk).read_text(encoding="utf-8").splitlines() if ln.strip()]
-    ids, paths = [r[0] for r in rows], [r[1] for r in rows]
+    ids, paths = [r[0] for r in rows], [str(ROOT / r[1]) for r in rows]  # chunk paths are repo-relative
+    missing = [p for p in paths if not Path(p).exists()]
+    if missing:
+        sys.exit(f"no such sheet: {missing[0]}")
     images, listing = [], []
     for i, p in zip(ids, paths):
         images.append(p)

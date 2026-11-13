@@ -31,9 +31,8 @@ ART_NEAR_RECT = {"title.start": 78, "title.card": 894, "rnk.ranking": 62, "rnk.s
                  "st5.stop": 707,
                  # read zoomed on row_sheet crops (phase 8): panel bars, plate frames and bubbles, no glyph pieces
                  "card.p_broken": 41, "card.p_save": 17, "card.p_load": 54, "card.p_failed": 147, "sel.banner": 78,
-                 "sel.gameover": 377, "sel.join_ok": 65, "sel.repair": 38, "hud.pochitto": 179, "hud.wait": 29,
-                 "hud.pick_mecha": 135, "st5.safety": 189, "st5.sign_small": 382, "boss5.plate1": 260,
-                 "boss5.plate2": 267, "wep.sfx": 127, "logo.trial": 227,  # burst lines; the stamp's rotated frame
+                 "sel.gameover": 342, "sel.join_ok": 65, "sel.repair": 38, "hud.pochitto": 179,                 "hud.pick_mecha": 135, "st5.safety": 189, "st5.sign_small": 382, "boss5.plate1": 260,
+                 "boss5.plate2": 267, "wep.sfx": 127,  # burst lines
                  } | {f"song.{i:02}": 645 if i == 13 else 658 for i in range(1, 21)}
 
 

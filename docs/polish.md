@@ -15,10 +15,11 @@ run while a line is unticked.
 - [ ] Song titles are our own English (no official ones); `song.17` Zorozoro and `song.18` Patoru! de SHOW keep
   their sound. Reading of ぱとる unchecked.
 - [x] `st5.sign_small` reading 人命尊重 unsure (phase 4): read zoomed in phase 8, it is 火器厳禁 (the 火's dots show); now "No Flames".
-- [ ] `wep.sfx` "KA-|BOOM" and `hud.wait`, `hud.pick_mecha`, `boss5.*`, `st5.safety`, `card.p_broken`-`p_failed`,
-  `logo.trial` were never drawn in any dump: their layout is a guess until phase 8 sees them.
-- [ ] Phase 6 review minors: `hud.pick_mecha` "< Pick a mecha" in `badge` is 6 px tall (try "< Pick|a mecha");
-  `boss5.anger` "MAD" is a small tag where 怒 fills 28x40 (stack or a bigger class); check both zoomed in phase 8.
+- [ ] `wep.sfx` "KA-|BOOM", `hud.pick_mecha`, `boss5.*`, `st5.safety`, `card.p_broken`-`p_failed`, `logo.trial` were
+  never drawn in any dump: phase 8 read them zoomed on TIM crops (`rows_unshown_sheet`, codex ok), not in game.
+  `hud.wait` was drawn in tour4 (two pieces side by side, zooming in) and redone on its yellow plates.
+- [ ] Phase 6 review minor: `hud.pick_mecha` "< Pick a mecha" in `badge` is 6 px tall (try "< Pick|a mecha").
+- [x] `boss5.anger` "MAD" now `stamp` class, outlined, fills the 32 px plate (phase 8).
 - [ ] Credit 81 協力 "Special Thanks" where desu-yo uses "Cooperation"; credit 37 drops the ♥ of スタジオ・ラブ♥ハンター
   (credit font is ASCII; restore if a heart glyph is added).
 - [ ] Tonzra ends 8 movie lines on ", I tell ya" (MOVE01.5, .19; MOVE02.18; MOVE03.18; MOVE04.2, .23; MOVE05.4,

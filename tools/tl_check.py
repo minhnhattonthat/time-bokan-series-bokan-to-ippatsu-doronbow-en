@@ -35,7 +35,7 @@ MAX_CPS, WARN_CPS = 30, 22
 # Rows whose box the uv rule below gets wrong (docs/re/credits.md):
 OVERRIDE = {
     "card.p_memory": (128, 40),  # one canvas over the two 64x40 no-card quads, side by side on screen
-    "hud.wait": (32, 32),  # two 32x16 pieces stacked
+    "hud.wait": (32, 32),  # two 32x16 pieces, one line each (the game draws them side by side)
     "rnk.ranking": (108, 30),  # RANKING, skull, SCORE share one 192x32 quad side by side
     "rnk.score": (66, 30),  # from its rect to the quad's right edge
 }

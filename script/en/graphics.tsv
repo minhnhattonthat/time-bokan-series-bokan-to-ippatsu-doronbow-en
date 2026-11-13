@@ -94,7 +94,7 @@ sel.join_ok	Join In!	banner	参加OK: player 2 may join; banner class, as the Ja
 sel.repair	Under|Repair		整備中 stamp, red cross over it
 sel.banner	Ready to Launch		出撃準備
 hud.pochitto	Annnd...|click!		ポチっとな badge, the catchphrase whole
-hud.wait	Hold|on!		ちょっと待ってね!, two 32x16 pieces stacked
+hud.wait	Hold|on!	label	ちょっと待ってね!, two 32x16 pieces the game draws side by side (screen x 232, 264), zooming in
 hud.pick_mecha	< Pick a mecha	badge	◀メカをえらんで
 hud.gameover	Game Over
 rnk.ranking	Ranking
@@ -122,4 +122,4 @@ st5.sign_small	No Flames		火器厳禁, read zoomed 2026-11-14 (the 火's dots s
 st5.stop	STOP
 boss5.plate1	Hate the crime,
 boss5.plate2	not the person.
-boss5.anger	MAD		怒 on the robot
+boss5.anger	MAD	stamp	怒 on the robot; stamp class, outlined, fills the 32 px plate

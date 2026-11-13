@@ -25,7 +25,7 @@ def test_avoided_spelling_non_ascii_and_missing_term_are_caught():
 
 def test_budgets_use_the_drawn_quad_and_the_overrides():
     b = tl_check.budgets()
-    assert b["opt.level1"] == (214, 16)  # rect x 26 to the 240 px quad's edge, rect height
+    assert b["opt.level1"] == (218, 16)  # rect x 22 to the 240 px quad's edge, rect height
     assert b["song.12"][0] == tl_check.SONG_W
     assert b["card.p_memory"] == (128, 40)
 

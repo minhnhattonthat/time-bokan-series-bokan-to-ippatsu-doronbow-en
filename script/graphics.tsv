@@ -2,7 +2,7 @@ id	file	x	y	w	h	form	jp	note
 logo.doronbow	CHRPLY/TITLE1B	0	0	176	112	keep	ドロンボー	logo stays Japanese, D5
 logo.ippatsu	CHRPLY/TITLE1B	0	116	84	140	keep	ボカンと一発!	logo stays Japanese, D5
 logo.series	CHRPLY/TITLE1B	96	192	136	20	keep	タイムボカンシリーズ	logo stays Japanese, D5
-logo.trial	CHRPLY/TITLE1B	180	140	72	30	stamp	体験版	trial-edition stamp; guess unused in retail
+logo.trial	CHRPLY/TITLE1B	176	120	80	64	stamp	体験版	trial-edition stamp; guess unused in retail; rect = the rotated stamp's box
 title.start	CHRPLY/TITLE3	144	185	66	18	menu	スタート
 title.options	CHRPLY/TITLE3	144	206	81	19	menu	オプション
 title.card	CHRPLY/TITLE3	144	229	93	18	menu	メモリーカード
@@ -28,10 +28,10 @@ card.p_save	CHRPLY/TITLE4	56	102	48	20	piece	セーブ	split by eye
 card.p_load	CHRPLY/TITLE4	104	102	32	20	piece	ロード	ー squeezed; split by eye
 card.p_failed	CHRPLY/TITLE4	136	102	116	20	piece	に失敗しました	split by eye
 promo.tk01	CHRPLY/TK_01	0	0	256	256	keep	タイムボカンシリーズ ボカンと一発!ドロンボー '96 11月発売予定!! 請う、ご期待だべぇ 定価5800円(税別)	trial advert; no file name in any code, never loaded (docs/re/graphics.md)
-opt.level1	CHRPLY2/OPTI_01	26	8	194	16	menu	ゲームレベル 1(やさしい)
-opt.level2	CHRPLY2/OPTI_01	26	40	194	16	menu	ゲームレベル 2(ふつう)
-opt.level3	CHRPLY2/OPTI_01	26	72	194	16	menu	ゲームレベル 3(むずい)
-opt.level4	CHRPLY2/OPTI_01	26	104	194	16	menu	ゲームレベル 4(げきむず)
+opt.level1	CHRPLY2/OPTI_01	22	8	198	16	menu	ゲームレベル 1(やさしい)	rect from the bar's left fill edge (x 22) to the Japanese ) (x 219): centres on the bar within 1 px
+opt.level2	CHRPLY2/OPTI_01	22	40	198	16	menu	ゲームレベル 2(ふつう)
+opt.level3	CHRPLY2/OPTI_01	22	72	198	16	menu	ゲームレベル 3(むずい)
+opt.level4	CHRPLY2/OPTI_01	22	104	198	16	menu	ゲームレベル 4(げきむず)
 opt.credit	CHRPLY2/OPTI_01	26	136	68	16	menu	クレジット
 opt.sound	CHRPLY2/OPTI_01	26	168	95	16	menu	サウンドテスト
 opt.keys	CHRPLY2/OPTI_01	8	214	102	22	menu	キーコンフィグ
@@ -93,12 +93,12 @@ ship.doron	CHRPLY/SELNAME	152	160	104	31	name	ドロンジョカー
 ship.boya	CHRPLY/SELNAME	152	192	104	31	name	ボヤッキーカー
 ship.tonzr	CHRPLY/SELNAME	152	224	104	31	name	トンズラーカー
 ship.gaikotu	CHRPLY/SELNAME	64	220	88	35	name	ガイコッツ
-sel.gameover	CHRPLY/SELNAME	0	77	82	22	label	ゲームオーバー	NO CREDIT plate below is English
+sel.gameover	CHRPLY/SELNAME	0	77	88	22	label	ゲームオーバー	NO CREDIT plate below is English; ー ends at x 86
 sel.join_ok	CHRPLY/SELNAME	2	118	77	30	label	参加OK	rect takes OK too (quad ends at x 79)
 sel.repair	CHRPLY/SELNAME	0	214	56	40	stamp	整備中	red cross over it
 sel.banner	CHRPLY/SEL_BG	24	144	160	46	banner	出撃準備	four 40x48 tiles; glyphs run to y 188
 hud.pochitto	CHRPLY/KIHON	194	96	32	27	badge	ポチっとな	not reached yet (docs/re/state.md); glyphs x 194-225
-hud.wait	CHRPLY/KIHON	226	174	30	34	badge	ちょっと待ってね!	split across the page edge; not reached yet
+hud.wait	CHRPLY/KIHON	224	176	32	32	badge	ちょっと待ってね!	split across the page edge; not reached yet
 hud.pick_mecha	CHRPLY/KIHON	182	214	56	20	label	◀メカをえらんで	not reached yet
 hud.gameover	CHRPLY/KIHON	176	234	64	22	label	ゲームオーバー
 rnk.ranking	CHRPLY/RNK	4	97	108	30	banner	ランキング	skull between the words
