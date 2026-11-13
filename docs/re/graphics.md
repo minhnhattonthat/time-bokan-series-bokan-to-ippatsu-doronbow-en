@@ -19,7 +19,7 @@ Readings are by eye; kanji marked (?) need a second look in phase 4. "Where show
 | `CHRPLY/TITLE2` (8 bpp) | skull emblem, no text |
 | `CHRPLY/TITLE3` | menu スタート, オプション, メモリーカード; ©タツノコプロ, ©バンプレ企画 1996 (English: PUSH START BUTTON, ©BANPRESTO 1996, DORONBOO tiles) |
 | `CHRPLY/TITLE4` | memory card: menu セーブ, ロード (EXIT English); NO/YES (English); アクセス中, セーブOK!, ロードOK!; messages このメモリーカードは / フォーマットされてません / フォーマットしますか? / 空き容量が足りません / データがありません; fragments ・メモリー, 差されて, カードが, (い)ません, カードがこわれてます, セーブ, ロードに失敗しました (assembled from pieces at run time: **guess**) |
-| `CHRPLY/TK_00, TK_01` | trial-edition advert: タイムボカンシリーズ ボカンと一発!ドロンボー '96 11月発売予定!! 請う、ご期待だべぇ 定価5800円(税別). **Guess:** left over from the 体験版, never shown in retail; phase 2 decides |
+| `CHRPLY/TK_00, TK_01` | trial-edition advert: タイムボカンシリーズ ボカンと一発!ドロンボー '96 11月発売予定!! 請う、ご期待だべぇ 定価5800円(税別). **Verified unused:** no file name for them in `BOKAN.EXE` or any overlay (`tools/file_refs.py`), so retail never loads them; leave Japanese |
 | `CHRPLY2/OPTI_01` | options: ゲームレベル 1(やさしい), 2(ふつう), 3(むずい), 4(げきむず); クレジット; サウンドテスト; キーコンフィグ; ショット; ボム |
 | `CHRPLY2/OPTI_02` | OPTION, EXIT, digits (English) |
 | `CHRPLY2/OPTI_03-05` | sound test song titles, 「」-bracketed: タイムボカン, それゆけガイコッツ, ヤッターマンの歌, 天才ドロンボー, ヤッターキング, ドロンボーのシラーケッ(?), ゼンダマンの歌, これまたアクダマン, オタスケマンの歌, アーウー・オジャママン, ヤットデタマンの歌, ヤットデタマン・ブギウギ・レディ, 逆転イッパツマン, シビビーン・ラプソディ, いただきマンボ, 正義のハイライト, ゾロゾロマーチ, ぱとる!でSHOW, ストライク・ドロンボー, 夕日のドロンボー (20 rows) |
