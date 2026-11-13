@@ -29,6 +29,9 @@ MAX_W = 296        # canvas is 320 wide, keep 12 px each side
 MAX_LINES = 3
 BOTTOM = 226       # last text row of the 240-line picture, clear of TV overscan
 SECTORS_PER_SEC = 150
+# Whisper's starts run early: speech onset after a pause is 0.34 s later at the median (47 rows, IQR 0.23-0.42),
+# so every row is shown this much later than its script/fmv time.
+DELAY = 0.3
 WORDS_MAX = 16416  # largest MDEC size in the original movies (MOVE03), so the one player's buffer is known to hold it
 MARKER = "The quick brown fox jumps over the lazy dog, again and again and again"
 
@@ -102,7 +105,7 @@ def burn_movie(track, entry, movie, subs):
     out = {}
     stats = dict(frames=0, requant=0, max_q_step=0, frames_total=len(frames))
     for f in frames:
-        t = f.sectors[0] / SECTORS_PER_SEC
+        t = f.sectors[0] / SECTORS_PER_SEC - DELAY
         sub = next((s for s in subs if s[0] <= t < s[1]), None)
         if not sub:
             continue
