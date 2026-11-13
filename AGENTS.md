@@ -10,7 +10,7 @@ Reference project: `../time-bokan-series-bokan-desu-yo-en` (sequel, finished; sa
 - Extract:  `python -X utf8 tools/disc.py x "rom/Time Bokan Series - Bokan to Ippatsu! Doronbow (Japan) (Track 01).bin" work/x` (Form 1 files; STR stays on disc)
 - Survey:   `python -X utf8 tools/tim_sheets.py work/x work/recon/tims`; `tools/tim.py png FILE OUT.png auto` (first real CLUT row); `tools/str_frames.py BIN work/recon/str --every 3`; `tools/sjis_scan.py [--swap] FILE..`
 - Smoke:    `python -X utf8 $SKILL/scripts/emu.py "rom/Time Bokan Series - Bokan to Ippatsu! Doronbow (Japan).cue" --out work/qa/smoke --route tools/routes/boot.txt --smoke` (build output once phase 3 exists)
-- Warp:     `python -X utf8 tools/debug/warp_all.py [scene ..]` (cold boot to each scene in `tools/debug/scenes.lua`, shots in `work/qa/warp/<scene>`; `--list`); state and tasks: `docs/re/state.md`
+- Warp:     `python -X utf8 tools/debug/warp_all.py [scene ..]` (cold boot to each scene in `tools/debug/scenes.lua`, shots in `work/qa/warp/<scene>`; `--list`; `--god`; card images from `tools/mcd.py`); state and tasks: `docs/re/state.md`
 - Build, Release: not written yet (phases 3, 9); follow desu-yo's `tools/build.py`, `tools/release.py`.
 - Clean:    `python -X utf8 tools/clean.py` (published projects: lists rebuildable/downloadable files; `--yes` deletes)
 

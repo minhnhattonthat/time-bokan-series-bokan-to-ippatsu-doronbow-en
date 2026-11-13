@@ -15,12 +15,18 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from skill import SKILL  # noqa: E402
+import mcd  # noqa: E402
 
 DEFAULT_ROM = os.path.join(ROOT, "rom", "Time Bokan Series - Bokan to Ippatsu! Doronbow (Japan).cue")
 SCENES = os.path.join(ROOT, "tools", "debug", "scenes.lua")
 WARP = os.path.join(ROOT, "tools", "debug", "warp.lua")
-LONG = {"clear7": 40000, "ending": 40000, "gameover": 30000, "ranking": 30000, "demo": 20000}
+LONG = {"clear7": 40000, "ending": 40000, "gameover": 30000, "ranking": 30000, "demo": 20000,
+        **{f"tour{n}": 45000 for n in range(1, 8)}}
 NO_SMOKE = {"movie06", "logo"}  # fades to black or white by design; the scene's own checks prove it
+# Per-scene memory card (tools/mcd.py kind, written to work/saves/) and extra Lua vars (warp.lua's P2, NOCARD)
+CARDS = {"memcard": "blank", "memcard_load": "blank", "memcard_loadok": "blank", "memcard_full": "full",
+         "memcard_format": "unformatted"}
+VARS = {"memcard_nocard": ["NOCARD=1"], "join2p": ["P2=1"]}
 
 
 def scene_names():
@@ -41,6 +47,14 @@ def run(scene, rom, out, god, states):
         cmd.append("--smoke")
     if god:
         cmd += ["--var", "GOD=1"]
+    for v in VARS.get(scene, []):
+        cmd += ["--var", v]
+    if scene in CARDS:
+        card = os.path.join(ROOT, "work", "saves", CARDS[scene] + ".mcd")
+        if not os.path.exists(card):
+            os.makedirs(os.path.dirname(card), exist_ok=True)
+            open(card, "wb").write(mcd.card(CARDS[scene]))
+        cmd += ["--sav", card]
     if states:
         cmd += ["--state-out", os.path.join(ROOT, "work", "states", scene + ".sstate")]
     r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding="utf-8", errors="replace")

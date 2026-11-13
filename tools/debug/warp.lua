@@ -3,6 +3,9 @@
 -- Use: emu.py CUE --out D --frames 40000 --timeout 900 --script tools/debug/warp.lua --script tools/debug/scenes.lua
 --      --var "SCENE='title'"; optional: --var GOD=1 pins the shield. warp_all.py runs the whole list.
 local mem = PCSX.getMemPtr()
+-- Opt-in hardware: P2=1 plugs in pad 2 (off in PCSX-Redux by default, so W.tap2 did nothing); NOCARD=1 pulls card 1.
+if P2 then PCSX.settings.pads[2].Connected = true end
+if NOCARD then PCSX.settings.emulator.Mcd1Inserted = false end
 W = {}
 function W.r8(a) return mem[a % 0x200000] end
 function W.r16(a) a = a % 0x200000; return mem[a] + mem[a + 1] * 256 end
@@ -68,9 +71,14 @@ function W.call(fn, a0)
   error("no free task slot in group 0")
 end
 
-W.SHIELD1 = 0x0D421D -- u8 1P shield, 3 at start (guess from RAM search; GOD pins it)
+W.SHIELD1 = 0x0D421D -- u8 3 at start, falls with hits: a HUD copy, not what the death check reads
+-- Player structs at 0x800D7D28, stride 0x80: +0 CND, +2 ACTCND (4 = dying), +0x24 s32 HP, 0x2000 full; the hit code
+-- 80046AC0 kills the player when HP <= 0. GOD pins it full for both players.
+W.HP1 = 0x0D7D4C
 W.SCROLL = 0x1490FC  -- s32 scroll Y, 16.16 (debug print "SCROLL Y"); counts down, holds still at mid-bosses
-function W.god() if W.task() == W.STAGE_TASK then W.w8(W.SHIELD1, 3) end end
+function W.god()
+  if W.task() == W.STAGE_TASK then W.w32(W.HP1, 0x2000); W.w32(W.HP1 + 0x80, 0x2000) end
+end
 
 function W.task() return W.r32(W.TASK) end
 function W.sub() return W.r32(W.SUB) end
