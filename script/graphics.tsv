@@ -92,28 +92,31 @@ ship.denden	CHRPLY/SELNAME	152	128	104	31	name	デンデンメカ
 ship.doron	CHRPLY/SELNAME	152	160	104	31	name	ドロンジョカー
 ship.boya	CHRPLY/SELNAME	152	192	104	31	name	ボヤッキーカー
 ship.tonzr	CHRPLY/SELNAME	152	224	104	31	name	トンズラーカー
-ship.gaikotu	CHRPLY/SELNAME	64	220	88	35	name	ガイコッツ
+ship.gaikotu	CHRPLY/SELNAME	64	224	87	31	name	ガイコッツ	its quad; y 220-222 is the bottom of the START. sprite above
 sel.gameover	CHRPLY/SELNAME	0	77	88	22	label	ゲームオーバー	NO CREDIT plate below is English; ー ends at x 86
-sel.join_ok	CHRPLY/SELNAME	2	118	77	30	label	参加OK	rect takes OK too (quad ends at x 79)
+sel.join_ok	CHRPLY/SELNAME	2	120	77	28	label	参加OK	rect takes OK too (quad ends at x 79)
 sel.repair	CHRPLY/SELNAME	0	214	56	40	stamp	整備中	red cross over it
-sel.banner	CHRPLY/SEL_BG	24	144	160	46	banner	出撃準備	four 40x48 tiles; glyphs run to y 188
+sel.banner1	CHRPLY/SEL_BG	24	144	40	46	banner	出	出撃準備 is four 40x48 tiles, one kanji each, that fly in apart: one word per tile; glyphs run to y 188
+sel.banner2	CHRPLY/SEL_BG	64	144	40	46	banner	撃	tile 2 of 出撃準備
+sel.banner3	CHRPLY/SEL_BG	104	144	40	46	banner	準	tile 3 of 出撃準備
+sel.banner4	CHRPLY/SEL_BG	144	144	40	46	banner	備	tile 4 of 出撃準備
 hud.pochitto	CHRPLY/KIHON	194	96	32	27	badge	ポチっとな	not reached yet (docs/re/state.md); glyphs x 194-225
 hud.wait	CHRPLY/KIHON	224	176	32	32	badge	ちょっと待ってね!	split across the page edge; not reached yet
-hud.pick_mecha	CHRPLY/KIHON	182	214	56	20	label	◀メカをえらんで	not reached yet
-hud.gameover	CHRPLY/KIHON	176	234	64	22	label	ゲームオーバー
+hud.pick_mecha	CHRPLY/KIHON	184	216	53	16	label	◀メカをえらんで	not reached yet; the glyph sprite only (y 214-215 and 232+ are the neighbours' edges, x 180-183 the ◀)
+hud.gameover	CHRPLY/KIHON	176	240	64	16	label	ゲームオーバー	the text band of the 64x24 quad (y 232-255); a winged pig sits behind it (its eyes at y 237 use the text's red and white)
 rnk.ranking	CHRPLY/RNK	4	97	108	30	banner	ランキング	skull between the words
 rnk.score	CHRPLY/RNK	126	97	60	30	banner	スコア
 wep.sfx	CHRPLY/D_WEPON	188	128	68	50	sfx	ボー カン	vertical kana in two columns (ボ ー | カ ン); how they combine is phase 5
-tag.andoro	CHRPLY/ANDORO	1	244	80	12	tag	アンドロメダ号	sheet name tag; guess unused
-tag.boya	CHRPLY/BOYA	1	244	80	12	tag	ボヤッキーカー	sheet name tag; guess unused
-tag.denden	CHRPLY/DENDEN	1	244	80	12	tag	デンデンメカ	sheet name tag; guess unused
-tag.doron	CHRPLY/DORON	1	244	80	12	tag	ドロンジョカー	sheet name tag; guess unused
-tag.gaikotu	CHRPLY/GAIKOTU1	1	244	80	12	tag	ガイコッツ	sheet name tag; guess unused
-tag.rakuda	CHRPLY/RAKUDA	1	244	80	12	tag	タイムラクーダ	sheet name tag; guess unused
-tag.syareko	CHRPLY/SYAREKO	1	244	80	12	tag	シャレコーベメカ	sheet name tag; guess unused
-tag.sya_bagi	CHRPLY/SYA_BAGI	1	244	80	12	tag	シャレコーベバギー	sheet name tag; guess unused
-tag.tonzr	CHRPLY/TONZR	1	244	80	12	tag	トンズラーカー	sheet name tag; guess unused
-tag.tyarinko	CHRPLY/TYARINKO	1	244	80	12	tag	チャリンコ	sheet name tag; guess unused
+tag.andoro	CHRPLY/ANDORO	1	244	79	12	tag	アンドロメダ号	sheet name tag; guess unused
+tag.boya	CHRPLY/BOYA	1	244	79	12	tag	ボヤッキーカー	sheet name tag; guess unused
+tag.denden	CHRPLY/DENDEN	1	244	79	12	tag	デンデンメカ	sheet name tag; guess unused
+tag.doron	CHRPLY/DORON	1	244	79	12	tag	ドロンジョカー	sheet name tag; guess unused
+tag.gaikotu	CHRPLY/GAIKOTU1	1	244	79	12	tag	ガイコッツ	sheet name tag; guess unused
+tag.rakuda	CHRPLY/RAKUDA	1	244	79	12	tag	タイムラクーダ	sheet name tag; guess unused
+tag.syareko	CHRPLY/SYAREKO	1	244	79	12	tag	シャレコーベメカ	sheet name tag; guess unused
+tag.sya_bagi	CHRPLY/SYA_BAGI	1	244	79	12	tag	シャレコーベバギー	sheet name tag; guess unused
+tag.tonzr	CHRPLY/TONZR	1	244	79	12	tag	トンズラーカー	sheet name tag; guess unused
+tag.tyarinko	CHRPLY/TYARINKO	1	244	79	12	tag	チャリンコ	sheet name tag; guess unused
 stage1.title	CHRPLY2/TI_ST1	1	96	250	62	card	鷹は舞い下りた! だコロン	STAGE 1 / VS line above are English
 stage2.title	CHRPLY2/TI_ST2	1	89	250	93	card	南の島のヤッターキング! だコロン
 stage3.title	CHRPLY2/TI_ST3	1	89	250	93	card	真昼の決闘! 崖っぷちだよ、ゼンダマン
@@ -122,7 +125,8 @@ stage5.title	CHRPLY2/TI_ST5	1	97	236	62	card	怒れ! 正義の大巨神!
 stage6.title	CHRPLY2/TI_ST6	1	105	240	61	card	灼熱のダブルヒーロー!
 stage7.title	CHRPLY2/TI_ST7	1	90	250	92	card	飛べ!ドロンボー 空中大決戦 だペッチャ!
 st5.safety	ST5/BG/ST5_B2	160	224	96	32	sign	安全第一	road sign; 一 may sit on another tile
-st5.sign_small	ST5/BG/ST5_B2	160	200	96	20	sign	火器厳禁	small grey sign, reading unsure
+st5.sign_small	ST5/BG/ST5_B2	162	204	60	18	sign	火器厳禁	small grey sign, tiles x 160-223 (the pole at x 222-225); its plate inside the frame
+st5.sign_edge	ST5/BG/ST5_B2	228	204	28	17	sign	火の	tile x 224, drawn at the screen's right edge so only x 224-248 shows: a sign cut off after 火の (火の用心?)
 st5.stop	ST5/BG/ST5_SA0	0	152	72	26	sign	とまれ	street sign
 boss5.plate1	ST5/ENM/R5_BOSS2	70	228	90	28	sign	罪を憎んで、	speech plate
 boss5.plate2	ST5/ENM/R5_BOSS2	160	228	96	28	sign	人を憎まず。	speech plate

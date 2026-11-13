@@ -3,7 +3,7 @@ MOVE01	1	Hey, hey, Doronjo-sama! It's finally starting!
 MOVE01	2	Are we really doing this, Boyacky?
 MOVE01	3	I've got a bad feeling about it.
 MOVE01	4	Whaddaya mean, Doronjo-sama?
-MOVE01	5	This here's our chance to make it big, I tell ya!	ビッグになる
+MOVE01	5	Ain't this our chance to make it big?	ビッグになる
 MOVE01	6	That's right, Doronjo-sama.
 MOVE01	7	We've already sent out the challenge letters.
 MOVE01	8	We can't back out now, yes indeed.
@@ -66,13 +66,13 @@ MOVE03	14	Now, allow me to show you.
 MOVE03	15	The Genius Doronbow Special Machine!
 MOVE03	16	The design is modeled on our own beautiful faces!
 MOVE03	17	Not bad, Boyacky!
-MOVE03	18	It's fresh and real slick, I tell ya!
+MOVE03	18	It's fresh and real slick, ain't it!
 MOVE03	19	Well then, let's use this new machine...
 MOVE03	20	...to take care of the rest of 'em!
 MOVE03	21	Boys, move out!
 MOVE03	22	Arahora-sassa!
 MOVE04	1	Look, Boyacky, Tonzra! || Their giant mecha have finally given up!
-MOVE04	2	Yes, so it seems. || One more push and victory's ours, I tell ya!	Boyacky, then Tonzra
+MOVE04	2	Yes, it certainly seems that way. || One more push and victory's ours!	Boyacky, then Tonzra
 MOVE04	3	Well then, shall we finish them off?
 MOVE04	4	Extra-large final-showdown missile, ready to fire!
 MOVE04	5	Come on, push it, Boyacky, hurry!
@@ -93,7 +93,7 @@ MOVE04	19	We did it, yes indeed!
 MOVE04	20	We really did it!
 MOVE04	21	We won, didn't we?!
 MOVE04	22	Boyacky, Tonzra, well done!
-MOVE04	23	Let's drink to winnin'! A toast, a toast, I tell ya!	MOVE05.4: Tonzra regrets this toast
+MOVE04	23	Here's to winnin'! Let's have us a toast, a toast!	MOVE05.4: Tonzra regrets this toast
 MOVE04	24	Then here's to the genius Doronbow's great victory! Cheers!
 MOVE04	25	Cheers!
 MOVE04	26	Still, that was a long, hard fight.
@@ -108,7 +108,7 @@ MOVE04	34	That's not fair!
 MOVE05	1	Ahh... we lost after all, didn't we?
 MOVE05	2	And we were doing so well, too.
 MOVE05	3	I wonder if this is simply our fate.
-MOVE05	4	If only I hadn't gone and said "a toast" back there... || It's eatin' me up, I tell ya...
+MOVE05	4	If only I hadn't gone and said "a toast" back there... || Dang, it's eatin' me up...
 MOVE05	5	Oh, it can't be helped. Quit your crying.
 MOVE05	6	We beat their mecha black and blue! Let's hold our heads high!
 MOVE05	7	Besides, Boyacky, Tonzra... I got to run wild with you two one more time.

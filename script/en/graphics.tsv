@@ -92,11 +92,14 @@ ship.gaikotu	Gaikottsu
 sel.gameover	Game Over
 sel.join_ok	Join In!	banner	参加OK: player 2 may join; banner class, as the Japanese fills its 28 px
 sel.repair	Under|Repair		整備中 stamp, red cross over it
-sel.banner	Ready to Launch		出撃準備
+sel.banner1	All		出撃準備 "ready to sortie" as one word per tile (the tiles fly in apart): ALL SET TO GO!
+sel.banner2	Set		tile 2
+sel.banner3	To		tile 3
+sel.banner4	Go!		tile 4
 hud.pochitto	Annnd...|click!		ポチっとな badge, the catchphrase whole
 hud.wait	Hold|on!	label	ちょっと待ってね!, two 32x16 pieces the game draws side by side (screen x 232, 264), zooming in
-hud.pick_mecha	< Pick a mecha	badge	◀メカをえらんで
-hud.gameover	Game Over
+hud.pick_mecha	Pick a mecha	tag	◀メカをえらんで
+hud.gameover	Game Over	label	white over red on a black outline, as the Japanese, over the pig
 rnk.ranking	Ranking
 rnk.score	Score
 wep.sfx	KA-|BOOM		ボーカン: the explosion sound
@@ -118,6 +121,7 @@ stage5.title	Rage, Daikyojin|of Justice!
 stage6.title	The Scorching|Double Heroes!
 stage7.title	Fly, Doronbow!|Great Air Battle,|Peccha!		Perasuke's tic
 st5.safety	Safety|First
+st5.sign_edge	Fire		火の, cut off by the screen edge as the Japanese; left-aligned so it shows
 st5.sign_small	No Flames		火器厳禁, read zoomed 2026-11-14 (the 火's dots show; was 人命尊重?)
 st5.stop	STOP
 boss5.plate1	Hate the crime,

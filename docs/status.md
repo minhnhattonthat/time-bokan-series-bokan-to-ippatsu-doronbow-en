@@ -2,14 +2,27 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 9. Release: phase 8 done (2026-11-14), next is the story pass, polish list and release script.
-- **Next (phase 9):** follow desu-yo's `tools/release.py` and the skill's phase 9 done-when: story-pass verdict per
-  chapter (`work/qa/story/chapters/`, `tools/pairs.py`; codex read-only, as phase 6), `qa_gate.py check
-  work/qa/story/manifest.tsv`; tick or waive every `docs/polish.md` line; `jp_left.py` on the release build (no
-  Shift-JIS text exists except the card title, so for graphics the build_check leftover scan + tour are the evidence);
-  debug tool off (warp lives only in `tools/debug/*.lua`, nothing in the build); patch built, re-applied and verified
-  against `rom.sha1`; README without placeholders, base hashes in it and the zip README; zip = patch + README. Never
-  `gh release create`.
+- **Phase:** 9. Release done (2026-11-14): v1.0 zip built and verified in `release/` (gitignored). Publishing
+  (`gh release create`) is the owner's call; nothing else is open.
+- **Phase 9 result (build Track 01 SHA-1 `2eae4d85ef31c080820596ebd2534d3669a5e293`, CRC32 b77d42af):**
+  `tools/release.py --no-build --force` exit 0: check_rom, `check.py` 44 passed, tl_check OK, build_check 0 findings,
+  smoke ok, `jp_left.py --sjis` 0 runs in all 10 program files (the card title, the original's one hit, is English),
+  `qa_gate.py check` exit 0 on `work/qa/manifest.tsv` (95 sheets, tour 55/55 on this build, codex verdicts) and
+  `work/qa/story/manifest.tsv` (story, labels, credits: codex read-only story pass, all ok, 0 Critical/Important/Minor),
+  textcover 105/128 drawn + 23 waived (`docs/text_unshown.tsv`), polish.md all ticked, README placeholders none, debug
+  tool not in build.py. xdelta3 (-B track size) re-applied to the clean Track 01 and matched;
+  `release/Time_Bokan_Bokan_to_Ippatsu_Doronbow_EN_v1.0.zip` = xdelta (96,791,717 bytes, SHA-1
+  7e084b8ca308d7a754b9e6b72e765bc616494b2b) + README.txt (from `docs/release_readme.txt`, base and patched hashes).
+- **Phase 9 fixes:** Tonzra's ", I tell ya" cut from 8 movie lines to 3; MOVE04.2 split rebalanced. A rect audit
+  (each rect against its drawn quads, index dumps around it) found rects eating neighbours, missed by phase 8 QA:
+  `hud.pick_mecha` (2 rows of HUD sprites above, the top of GAME OVER, the ◀ tip; now its 53x16 sprite, "Pick a
+  mecha" in `tag`), `hud.gameover` (had erased the winged pig behind ゲームオーバー; now the text band y 240-255 with a
+  glyph-only erase, white over red on black as the Japanese), `ship.gaikotu` (bottom of START.), `sel.join_ok` (2 rows
+  of the frame above), tags (a cap column at x 80), `st5.sign_small` (ran into BG tile x 224, which stage 5 draws at the
+  screen's right edge: "es" on a grey box in game; now the sign's own plate, red as the kanji; the cut-off 火の sign in
+  that tile is new row `st5.sign_edge` "Fire"). `sel.banner` split per tile (`sel.banner1-4` "ALL SET TO GO!"): the
+  four 出撃準備 tiles fly in apart and the English was split mid-letter (codex). Not fixed: the tag bars' coloured end
+  caps were dropped in phase 8 (cosmetic); `st5.safety` (never drawn) still spans three BG tiles.
 - **Phase 8 result (build `bc624b5976e2905c8170c3d9a3f1dee3093f0d16`, Track 01):** build_check 0, smoke ok,
   `check.py` 44 passed, tour 55/55 (`work/qa/tour`, `--prims`; options/optvals re-toured on this build, the other 53
   on `ee0f9237`, which differs only in OPTI_01), `qa_gate.py check work/qa/manifest.tsv work/qa/verdicts` exit 0 (95
@@ -29,10 +42,10 @@ Updated at the end of every session. Keep it to what the next session needs; his
   between. No-card message white on navy. `build_check.near_box` searches the quads a rect overlaps (it saw nothing
   when a rect poked 1 px out); every remaining near-rect count was read zoomed as art (`ART_NEAR_RECT`).
   `qa_codex.py` resolves chunk paths from the repo root. `boss5.anger` "MAD" in `stamp`.
-- **Carried into 9:** short subtitles `MOVE03.9` "Hey, now!" 0.6 s, `MOVE04` "We did it!" 14 frames; subtitle times
-  are Whisper's. Rows never drawn in game (`docs/text_unshown.tsv`) are checked on TIM crops only. `hud.pick_mecha` is
-  6 px tall (polish).
+- **Known limits in the release:** short subtitles `MOVE03.9` "Hey, now!" 0.6 s, `MOVE04` "We did it!" 14 frames;
+  subtitle times are Whisper's and nobody listened; rows never drawn in game are checked on TIM crops only.
 - **Done:**
+  - Phase 9 (2026-11-14): see "Phase 9 result" above.
   - Phase 8 (2026-11-14): see "Phase 8 result" above.
   - Phase 7 (2026-11-14, commit 2cfc767): `tools/build.py` builds the English disc (graphics rows, no-card canvas, staff roll repack, card title, movies); `build_check` 0 findings; its review's findings fixed in phase 8 (above).
   - Step 0: dump pinned (`rom.sha1`, 23 files), pre-commit hook in `tools/hooks` (a failing test blocked a commit), guard blocks `sed -i`, `tools/skill.py` prints the skill path, smoke boots the original disc on `tools/pcsx` and a scripted Start skips the opening FMV to the title. Not tested: GUI keyboard input (headless run). Tools copied from desu-yo: `disc.py`, `tim.py` (+ `best_clut`, `png ... auto`), `tim_sheets.py`, `tim_survey.py`, `str_frames.py`, `strings_scan.py`, `vram.py`, `tbl.py`, `bps.py`, `romdiff.py`. New: `sjis_scan.py`.

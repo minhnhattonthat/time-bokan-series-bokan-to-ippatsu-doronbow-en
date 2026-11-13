@@ -307,7 +307,7 @@ CANVAS_PIECES = ((32, 0, 64, 40, 0), (40, 40, 64, 40, 64))  # TIM x, y, w, h, ca
 # gradient with the white outline (sampling took the dark green shadow); options: white on black (sampling alternated).
 MENU_BLUE = (2, 3, 4, 5, 6)  # TITLE3/TITLE4 cyan to blue
 # rows the Japanese starts on one column (title menu at x 144, card menu at x 120 with EXIT), so left, not centred
-LEFT = {"title.start", "title.options", "title.card", "card.save", "card.load"}
+LEFT = {"title.start", "title.options", "title.card", "card.save", "card.load", "st5.sign_edge"}
 ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "card")},
             "card.save": Inks(MENU_BLUE, 15), "card.load": Inks(MENU_BLUE, 15),
             **{f"opt.{k}": Inks(15, 1) for k in ("level1", "level2", "level3", "level4", "credit", "sound", "keys",
@@ -318,7 +318,8 @@ ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "
                                                     ("denden", 6), ("doron", 14), ("boya", 6), ("tonzr", 8),
                                                     ("gaikotu", 12))},
             "sel.gameover": Inks(14, 15, bg=("glyph", (14,), (15,))), "sel.join_ok": Inks(6, 15),  # gameover: keep its bubble art
-            "sel.banner": Inks(15, 13, bg=(10, 14, 15)),  # erase the white glyphs and their shadow, keep the plates
+            # banner tiles: erase the white glyphs and their shadow, keep the plates
+            **{f"sel.banner{i}": Inks(15, 13, bg=(10, 14, 15)) for i in range(1, 5)},
             # card messages: short ones blue on white as the menu, sentences white on dark blue
             **{f"card.{k}": Inks(MENU_BLUE, 15) for k in ("access", "save_ok", "load_ok")},
             **{f"card.{k}": Inks(15, 14) for k in ("this_card", "unformatted", "format_q", "no_space", "no_data",
@@ -328,8 +329,11 @@ ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "
             "hud.pochitto": Inks(15, 1, bg=(15, 1, 2), shadow=1),  # erase the glyphs, keep the round red badge
             "logo.trial": Inks(49, 3, bg=(49, 3, 18, 48)),  # the red kanji and their shades off the rotated stamp
             "hud.wait": Inks(15, 13, bg=("plate", 10)),  # white on orange, as the Japanese, on the yellow plates
+            "hud.gameover": Inks((15, 15, 10, 10), 14, bg=("glyph", (15, 10), (14,))),  # keep the pig behind
+            "hud.pick_mecha": Inks(15, 13, bg=0),  # white kana on dark red, as the Japanese; margin sampling took the ◀
             "boss5.anger": Inks(6, 1),
-            "st5.safety": Inks(6, 15, bg=15), "st5.sign_small": Inks(11, 1, bg=8),
+            "st5.safety": Inks(6, 15, bg=15), "st5.sign_small": Inks(6, 1, bg=(6, 14, 15)),
+            "st5.sign_edge": Inks(6, 1, bg=(6, 14, 15)),  # both: red as the kanji, glyphs erased off the two-tone plates
             **{f"tag.{k}": Inks(15, 1) for k in ("andoro", "boya", "denden", "doron", "gaikotu", "rakuda", "syareko",
                                                 "sya_bagi", "tonzr", "tyarinko")}}  # white on the dark tag bar
 SONG_INKS = Inks(15, 1, bg="row", shadow=1)  # white with a dark drop shadow, as the Japanese, on each row's plate

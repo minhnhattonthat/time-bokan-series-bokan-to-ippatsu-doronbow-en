@@ -15,7 +15,7 @@ Reference project: `../time-bokan-series-bokan-desu-yo-en` (sequel, finished; sa
 - Warp:     `python -X utf8 tools/debug/warp_all.py [scene ..]` (cold boot to each scene in `tools/debug/scenes.lua`, shots in `work/qa/warp/<scene>`; `--list`; `--god`; card images from `tools/mcd.py`); state and tasks: `docs/re/state.md`
 - Build:    `python -X utf8 tools/build.py [OUTDIR] --identity` (build/identity; byte-identical to the dump, `tests/test_build.py`). `--marker` (build/marker: row numbers on every rect, numbered test line in every movie row; ~12 min), `--spike` (build/spike: `script/spike.tsv` lettered, no movies). Default (no flag): the English disc in build/ (~4 min with movies; `--no-movies` ~7 s). Gate: `tools/build_check.py [DIR]` (0 findings). Row crops before/after: `tools/row_sheet.py OUT.png [ID ..]`.
 - Budgets:  `warp_all.py --prims --out work/qa/prim [scene ..]`, `tools/prims.py rows work/qa/prim/*/`, `tools/budgets.py` (`script/budgets.tsv`); `gfx.row_width(text, form)` is the width gate. Credits: `tools/credits.py lines|sheet` from the `staff` scene (`script/credits.tsv`, `docs/re/credits.md`). Movies: `tools/fmv_sheet.py TRACK MOVE0n OUT --at S` / `--slack`.
-- Release:  not written yet (phase 9); follow desu-yo's `tools/release.py`.
+- Release:  `python -X utf8 tools/release.py [--version 1.0] [--no-build] [--force]` (build, every gate, xdelta of Track 01 re-applied and checked, zip in `release/`; zip README from `docs/release_readme.txt`). Story pass: `tools/pairs.py`, codex per `docs/story-reviewer-brief.md`, verdicts in `work/qa/story/verdicts/`.
 - Clean:    `python -X utf8 tools/clean.py` (published projects: lists rebuildable/downloadable files; `--yes` deletes)
 
 ## Paths

@@ -30,8 +30,13 @@ RING = 6  # px around a rect searched for leftover ink
 ART_NEAR_RECT = {"title.start": 78, "title.card": 894, "rnk.ranking": 62, "rnk.score": 63,
                  "st5.stop": 707,
                  # read zoomed on row_sheet crops (phase 8): panel bars, plate frames and bubbles, no glyph pieces
-                 "card.p_broken": 41, "card.p_save": 17, "card.p_load": 54, "card.p_failed": 147, "sel.banner": 78,
-                 "sel.gameover": 342, "sel.join_ok": 65, "sel.repair": 38, "hud.pochitto": 179,                 "hud.pick_mecha": 135, "st5.safety": 189, "st5.sign_small": 382, "boss5.plate1": 260,
+                 "card.p_broken": 41, "card.p_save": 17, "card.p_load": 54, "card.p_failed": 147,
+                 "sel.banner1": 30, "sel.banner2": 68, "sel.banner3": 68, "sel.banner4": 30,  # plate rims (phase 9)
+                 "sel.gameover": 342, "sel.join_ok": 65, "sel.repair": 38, "hud.pochitto": 179,
+                 # phase 9, read in index dumps and row_sheet crops: pick_mecha's ◀ and its neighbours' edges, the
+                 # winged pig above GAME OVER's text band, the signs' frames, pole and tilted plate edges
+                 "hud.pick_mecha": 160, "hud.gameover": 100, "st5.sign_small": 74, "st5.sign_edge": 72,
+                 "st5.safety": 181, "boss5.plate1": 260,
                  "boss5.plate2": 267, "wep.sfx": 127,  # burst lines
                  } | {f"song.{i:02}": 645 if i == 13 else 658 for i in range(1, 21)}
 
