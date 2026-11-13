@@ -1,0 +1,28 @@
+start	end	form	speaker	jp	note
+3.28	6.78	dlg	Boyacky	ちょっとちょっと、ドロンジョ様、いよいよ始まりますよ
+7.52	9.08	dlg	Doronjo	本当にやんのかい、ボヤッキー	was: ぼやっき
+9.08	11.06	dlg	Doronjo	私はなんだか不安だよ
+11.06	13.24	dlg	Tonzra	何言ってまんねん、ドロンジョ様	was: まんねや
+13.24	15.50	dlg	Tonzra	ビッグになるチャンスや思えへんか
+15.50	17.42	dlg	Boyacky	そうですよ、ドロンジョ様
+17.42	19.96	dlg	Boyacky	もう挑戦状は送りつけちゃいましたから
+19.96	22.28	dlg	Boyacky	今さら止めるわけにはいかないんですよ
+23.18	24.54	dlg	Doronjo	でもさ、ボヤッキー
+26.00	27.92	dlg	Doronjo	ヤッターマンだけでも大変なのに	was: やったまん
+27.92	30.66	dlg	Doronjo	今度は善玉全員を相手に戦うんだろ?
+30.88	32.72	dlg	Doronjo	本気なのかい?
+33.48	34.90	dlg	Boyacky	もちろんですよ
+35.32	39.58	dlg	Boyacky	私たちがシリーズ最強の三悪だということを証明するためにも	was: 三悪 heard as 山岳 throughout
+39.58	43.04	dlg	Boyacky	あのヤッターマンや、ゼンダマンや、オタスケマン	was: やってまんや、善玉まんや、おたしけまん
+43.04	47.10	dlg	Boyacky	ヤットデタマンや、イッパツマン、イタダキマンなんて奴らは	was: やっててたまん、一発まん、いただきまん
+47.10	49.42	dlg	Boyacky	もう、みーんなまとめて
+49.42	53.08	dlg	Boyacky	ギッタンギッタンのバッタンバッタンにしてやらねばならないんでございます	? was: ギッタンギッタンなパッタンパッタン
+53.08	61.30	dlg	Tonzra	せやせや、わいらは最強の三悪、天才ドロンボーです。いつまでも奴らにええ格好させられへん。	? was: いやいや、我らは…いい格好; one Whisper segment
+61.44	68.14	dlg	Doronjo	あら、トンズラーまで。分かったよ。お前たちがそこまで言うなら、私も覚悟を決めた。	one Whisper segment; split by exact times in phase 7
+68.68	75.88	dlg	Doronjo	どこまでやれるか分からないけど、善玉の奴らを叩きのめして、主役の座を奪い取ってやろうじゃないか。
+77.26	78.64	dlg	?	ドロンボーめ	? was: 泥ん坊め; speaker unknown
+79.64	85.94	dlg	Doronjo	そうと決まれば、ボヤッキー、トンズラー、さっさとメカの支度をするんだよ!	was: トンザ
+86.52	92.50	dlg	Doronjo	タイムボカンシリーズの真の主役がドロンボーだってことを全国に知らしめてやろうじゃないか!
+93.28	94.42	dlg	Boyacky and Tonzra	アラホラサッサー!	was: アルフォルト戦士; the gang's stock reply
+95.24	96.72	dlg	All three	ボカンと一発!	title call
+97.40	99.18	dlg	All three	ドロンボー!	title call

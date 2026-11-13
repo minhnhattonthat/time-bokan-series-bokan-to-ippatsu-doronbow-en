@@ -1,0 +1,5 @@
+start	end	form	speaker	jp	note
+9.42	13.36	dlg	Dokurobey	わしはドクロベェだべ	? low confidence (logprob -1.05, both passes); was: ルクロベーだべ / 独立ダビー
+14.12	19.02	dlg	Dokurobey	あのスカポンタンどもに愛のおしおきだべ	? was: あんのスカポン担どもに; his stock punishment line
+20.04	23.02	dlg	Dokurobey	ミュージック、スタート!	? low confidence
+30.00	31.10	dlg	All three	ああああっ!	? scream as the skull blast hits; a 0.9 s "はじめ" at 8.3 s and an 8.8 s "うーん" over music were dropped

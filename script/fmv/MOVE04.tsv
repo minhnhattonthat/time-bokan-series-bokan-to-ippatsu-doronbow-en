@@ -1,0 +1,35 @@
+start	end	form	speaker	jp	note
+0.90	7.20	dlg	Doronjo	見てごらんよ、ボヤッキー、トンズラー。奴らの巨大メカもついに観念したみたいじゃないか。
+7.64	11.74	dlg	Boyacky and Tonzra	ええ、どうやらそのようですね。あと一息でわいらの勝利や。	two speakers in one segment: Boyacky then Tonzra
+12.76	15.02	dlg	Boyacky	それでは、とどめを刺すとしましょうか。
+16.18	19.90	dlg	Boyacky	最終決戦用特大ミサイル、発射よーい。
+22.52	24.88	dlg	Doronjo	さあ、早く押すんだよ、ボヤッキー。
+24.94	28.86	dlg	Boyacky	ああ、ちょっと危ない、ダメだぞ、トンズラー。お前が押しなさいよ。	? was: 押しなえよ
+28.86	31.70	dlg	Tonzra	ああ、いいよ、もう、こういうことは、ど、ど、ドロンジョ様が。	?
+31.88	37.18	dlg	Doronjo	もう、しょうがないね。こんなことしてたら、また奴らに逆転勝ちされちゃうじゃないか。
+37.28	39.80	dlg	Doronjo	ほら、ボヤッキー、お前が押すんだよ。	? was: んー、ぼやき、お前が押すなー
+40.42	45.24	dlg	Boyacky	もう、ドロンジョ様ったら、都合の悪いことは全部私にさせるんだから。
+46.16	47.42	dlg	Boyacky	まあ、仕方ないですね。
+48.36	49.52	dlg	Boyacky	それでは、行きますよ。
+50.24	51.58	dlg	Boyacky	ポチッとな…あら。	his catchphrase as he presses
+52.54	53.94	dlg	Doronjo	何やってんだい、ボヤッキー。
+53.94	59.42	dlg	Boyacky	え、いや、このおててが、これ、ポチッ、ポチッて押しちゃったから、もう。	? his hand pressed Doronjo, not the button
+59.68	61.44	dlg	Doronjo	どさくさまぎれに、さわるんじゃない!
+62.02	63.42	dlg	Boyacky	ああ、ポチッとなー!
+68.18	68.94	dlg	Tonzra	やったー!	speaker guessed
+69.12	70.18	dlg	Boyacky	やりましたよ!
+70.32	71.86	dlg	Doronjo	本当にやったんだね!
+72.14	73.52	dlg	Doronjo	私たちの勝ちなんだね!
+74.02	76.68	dlg	Doronjo	ボヤッキー、トンズラー、よくやったよー!
+77.06	80.04	dlg	Tonzra	勝利を祝して、乾杯しまひょ、乾杯しまひょ!	? was: いい勝利を祝して…乾杯しましょう; MOVE05 has Tonzra regret proposing the toast
+80.04	85.00	dlg	Boyacky	それでは、天才ドロンボーの大勝利を祝って、乾杯!	speaker guessed
+85.74	86.22	dlg	All three	乾杯!
+89.48	93.06	dlg	Doronjo	それにしても、長く苦しい戦いだったね。
+93.76	98.24	dlg	Boyacky	なーに、この私がちょっと本気を出せばこんなもんですよ。
+98.42	102.98	dlg	Doronjo	あら、よく言うよ。でも今回は見直しちゃったよ、ボヤッキー。
+103.08	105.66	dlg	Boyacky	あ、そうですか。すいません、どうも。
+110.00	114.00	dlg	Doronjo	なんだよ、うるさいね。今、勝利に酔いしれてるのに。	second pass on the clip from 103 s; first pass ran it from 105.66
+114.00	116.00	dlg	?	あれ、ちょっと待て	? both passes: あれだって待て
+125.04	127.82	dlg	Doronjo	なんだよ、なんだよ、なんだよあれは、ボヤッキー、ボヤッキー
+127.82	131.88	dlg	Boyacky	ちょっと待って、私を前に押し出して、殺す気ですか	? was: 前押し出して殺す気か
+137.02	138.58	dlg	?	そんなのありかよ	?

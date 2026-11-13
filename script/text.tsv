@@ -1,0 +1,2 @@
+id	file	offset	size	form	jp	note
+card.title	BOKAN.EXE	0x8FA60	34	sjis_swapped	「　ボカンと一発！　ドロンボー　」	memory card save title, shown by the console's card manager; full-width only (D10); 16-bit words stored byte-swapped

@@ -1,0 +1,155 @@
+id	file	x	y	w	h	form	jp	note
+logo.doronbow	CHRPLY/TITLE1B	0	0	176	112	keep	ドロンボー	logo stays Japanese, D5
+logo.ippatsu	CHRPLY/TITLE1B	0	116	84	140	keep	ボカンと一発!	logo stays Japanese, D5
+logo.series	CHRPLY/TITLE1B	96	192	136	20	keep	タイムボカンシリーズ	logo stays Japanese, D5
+logo.trial	CHRPLY/TITLE1B	180	140	72	30	stamp	体験版	trial-edition stamp; guess unused in retail
+title.start	CHRPLY/TITLE3	144	185	66	18	menu	スタート
+title.options	CHRPLY/TITLE3	144	206	81	19	menu	オプション
+title.card	CHRPLY/TITLE3	144	229	93	18	menu	メモリーカード
+title.copy_tatsu	CHRPLY/TITLE3	4	225	76	13	menu	©タツノコプロ
+title.copy_banpre	CHRPLY/TITLE3	4	240	112	16	menu	©バンプレ企画 1996	1996 stays
+card.save	CHRPLY/TITLE4	120	16	49	18	menu	セーブ	EXIT below is English
+card.load	CHRPLY/TITLE4	120	40	49	18	menu	ロード
+card.access	CHRPLY/TITLE4	0	184	81	18	message	アクセス中	NO/YES above are English
+card.save_ok	CHRPLY/TITLE4	0	208	87	18	message	セーブOK!
+card.load_ok	CHRPLY/TITLE4	0	232	87	18	message	ロードOK!
+card.this_card	CHRPLY/TITLE4	84	144	160	18	message	このメモリーカードは	line 1 of the format prompt
+card.unformatted	CHRPLY/TITLE4	72	165	184	18	message	フォーマットされてません	line 2
+card.format_q	CHRPLY/TITLE4	86	184	168	18	message	フォーマットしますか?	line 3
+card.no_space	CHRPLY/TITLE4	96	208	160	18	message	空き容量が足りません
+card.no_data	CHRPLY/TITLE4	112	232	144	18	message	データがありません
+card.p_memory	CHRPLY/TITLE4	28	2	70	16	piece	・メモリー	pieces assembled at run time (guess); phase 5 maps the cells
+card.p_inserted	CHRPLY/TITLE4	40	22	62	17	piece	差されて
+card.p_card	CHRPLY/TITLE4	40	41	62	17	piece	カードが
+card.p_imasen	CHRPLY/TITLE4	40	62	62	18	piece	(い)ません	first glyph cut
+card.p_broken	CHRPLY/TITLE4	0	80	104	19	piece	カードがこわれ	runs on into card.p_temasu
+card.p_temasu	CHRPLY/TITLE4	0	102	56	18	piece	(れ)てます	split by eye
+card.p_save	CHRPLY/TITLE4	56	102	48	18	piece	セーブ	split by eye
+card.p_load	CHRPLY/TITLE4	104	102	32	18	piece	ロード	ー squeezed; split by eye
+card.p_failed	CHRPLY/TITLE4	136	102	116	18	piece	に失敗しました	split by eye
+promo.tk01	CHRPLY/TK_01	0	0	256	256	keep	タイムボカンシリーズ ボカンと一発!ドロンボー '96 11月発売予定!! 請う、ご期待だべぇ 定価5800円(税別)	trial advert; no file name in any code, never loaded (docs/re/graphics.md)
+opt.level1	CHRPLY2/OPTI_01	26	8	194	16	menu	ゲームレベル 1(やさしい)
+opt.level2	CHRPLY2/OPTI_01	26	40	194	16	menu	ゲームレベル 2(ふつう)
+opt.level3	CHRPLY2/OPTI_01	26	72	194	16	menu	ゲームレベル 3(むずい)
+opt.level4	CHRPLY2/OPTI_01	26	104	194	16	menu	ゲームレベル 4(げきむず)
+opt.credit	CHRPLY2/OPTI_01	26	136	68	16	menu	クレジット
+opt.sound	CHRPLY2/OPTI_01	26	168	95	16	menu	サウンドテスト
+opt.keys	CHRPLY2/OPTI_01	8	214	102	22	menu	キーコンフィグ
+opt.shot	CHRPLY2/OPTI_01	144	201	52	16	menu	ショット
+opt.bomb	CHRPLY2/OPTI_01	158	232	30	16	menu	ボム
+song.01	CHRPLY2/OPTI_03	18	8	98	16	list	「タイムボカン」
+song.02	CHRPLY2/OPTI_03	18	40	139	16	list	「それゆけガイコッツ」
+song.03	CHRPLY2/OPTI_03	18	72	129	16	list	「ヤッターマンの歌」
+song.04	CHRPLY2/OPTI_03	18	104	113	16	list	「天才ドロンボー」
+song.05	CHRPLY2/OPTI_03	18	136	115	16	list	「ヤッターキング」
+song.06	CHRPLY2/OPTI_03	18	168	166	16	list	「ドロンボーのシラーケッ」
+song.07	CHRPLY2/OPTI_03	18	200	115	16	list	「ゼンダマンの歌」
+song.08	CHRPLY2/OPTI_03	18	232	141	16	list	「これまたアクダマン」
+song.09	CHRPLY2/OPTI_04	18	8	129	16	list	「オタスケマンの歌」
+song.10	CHRPLY2/OPTI_04	18	40	160	16	list	「アーウー・オジャママン」
+song.11	CHRPLY2/OPTI_04	18	72	141	16	list	「ヤットデタマンの歌」
+song.12	CHRPLY2/OPTI_04	18	104	196	16	list	「ヤットデタマン・ブギウギ・レディ」	fills the plate
+song.13	CHRPLY2/OPTI_04	18	136	127	16	list	「逆転イッパツマン」
+song.14	CHRPLY2/OPTI_04	18	168	159	16	list	「シビビーン・ラプソディ」
+song.15	CHRPLY2/OPTI_04	18	200	114	16	list	「いただきマンボ」
+song.16	CHRPLY2/OPTI_05	18	8	125	16	list	「正義のハイライト」
+song.17	CHRPLY2/OPTI_05	18	40	114	16	list	「ゾロゾロマーチ」
+song.18	CHRPLY2/OPTI_05	18	72	142	16	list	「ぱとる!でSHOW」
+song.19	CHRPLY2/OPTI_05	18	104	165	16	list	「ストライク・ドロンボー」
+song.20	CHRPLY2/OPTI_05	18	136	127	16	list	「夕日のドロンボー」
+voice.01	CHRPLY2/OPTI_06	2	33	51	15	voice	エッホ!	face icons right of it
+voice.02	CHRPLY2/OPTI_06	2	49	67	15	voice	あれ~っ!
+voice.03	CHRPLY2/OPTI_06	80	48	72	16	voice	爆弾用意!
+voice.04	CHRPLY2/OPTI_06	162	49	66	15	voice	きゅ~っ!
+voice.05	CHRPLY2/OPTI_06	1	65	115	15	voice	やっておしまい!
+voice.06	CHRPLY2/OPTI_06	130	64	110	16	voice	なんてことだい!
+voice.07	CHRPLY2/OPTI_06	2	80	94	16	voice	スカポンタン!
+voice.08	CHRPLY2/OPTI_06	106	81	132	15	voice	やられたまんねん!
+voice.09	CHRPLY2/OPTI_06	1	96	133	16	voice	これでイチコロや!
+voice.10	CHRPLY2/OPTI_06	145	97	92	15	voice	しまったぁ~!
+voice.11	CHRPLY2/OPTI_06	2	112	111	16	voice	あ、どないしよ!
+voice.12	CHRPLY2/OPTI_06	120	112	108	16	voice	今週のやまばぁ	reading of the last kana unsure
+voice.13	CHRPLY2/OPTI_06	2	128	74	16	voice	あ痛ぁ~~
+voice.14	CHRPLY2/OPTI_06	82	128	80	16	voice	メカ戦だぁ!
+voice.15	CHRPLY2/OPTI_06	170	128	61	16	voice	スタ~ト!
+voice.16	CHRPLY2/OPTI_06	2	144	89	16	voice	いくわよ~ん
+voice.17	CHRPLY2/OPTI_06	98	144	139	16	voice	あ~ん、くやしい~!
+voice.18	CHRPLY2/OPTI_06	2	161	112	15	voice	アラホラサッサ!
+voice.19	CHRPLY2/OPTI_06	129	160	98	16	voice	しゅっぱ~つ!
+voice.20	CHRPLY2/OPTI_06	2	176	69	16	voice	なぬう~!
+voice.21	CHRPLY2/OPTI_06	81	176	150	16	voice	どれを使おうかねぇ?
+voice.22	CHRPLY2/OPTI_06	2	192	112	16	voice	しっかりおしよ!
+voice.23	CHRPLY2/OPTI_06	121	192	108	16	voice	オプションよぉ!
+voice.24	CHRPLY2/OPTI_06	2	208	83	16	voice	ポチっとな!
+voice.25	CHRPLY2/OPTI_06	98	208	146	16	voice	メカを選んでください	small mark left of it is not text
+voice.26	CHRPLY2/OPTI_06	2	224	97	16	voice	いったぁ~い!
+voice.27	CHRPLY2/OPTI_06	106	224	134	16	voice	それは整備中なの!
+ship.syareko	CHRPLY/SELNAME	154	2	102	28	name	シャレコーベメカ
+ship.andoro	CHRPLY/SELNAME	154	30	102	28	name	アンドロメダマ号
+ship.rakuda	CHRPLY/SELNAME	156	64	96	26	name	タイムラクーダ
+ship.sya_bagi	CHRPLY/SELNAME	152	98	104	24	name	シャレコーベバギー
+ship.denden	CHRPLY/SELNAME	156	127	90	26	name	デンデンメカ
+ship.doron	CHRPLY/SELNAME	152	159	104	28	name	ドロンジョカー
+ship.boya	CHRPLY/SELNAME	154	191	102	26	name	ボヤッキーカー
+ship.tonzr	CHRPLY/SELNAME	152	223	104	28	name	トンズラーカー
+ship.gaikotu	CHRPLY/SELNAME	64	220	88	34	name	ガイコッツ
+sel.gameover	CHRPLY/SELNAME	0	77	82	22	label	ゲームオーバー	NO CREDIT plate below is English
+sel.join_ok	CHRPLY/SELNAME	2	118	62	28	label	参加OK
+sel.repair	CHRPLY/SELNAME	0	214	56	40	stamp	整備中	red cross over it
+sel.banner	CHRPLY/SEL_BG	16	144	168	32	banner	出撃準備
+hud.pochitto	CHRPLY/KIHON	198	96	26	26	badge	ポチっとな	not reached yet (docs/re/state.md)
+hud.wait	CHRPLY/KIHON	226	174	30	34	badge	ちょっと待ってね!	split across the page edge; not reached yet
+hud.pick_mecha	CHRPLY/KIHON	182	214	56	20	label	◀メカをえらんで	not reached yet
+hud.gameover	CHRPLY/KIHON	182	236	56	20	label	ゲームオーバー
+rnk.ranking	CHRPLY/RNK	4	97	108	30	banner	ランキング	skull between the words
+rnk.score	CHRPLY/RNK	126	97	52	30	banner	スコア
+wep.sfx	CHRPLY/D_WEPON	196	128	60	50	sfx	ボー カン	vertical kana in two columns (ボ ー | カ ン); how they combine is phase 5
+tag.andoro	CHRPLY/ANDORO	1	244	80	12	tag	アンドロメダ号	sheet name tag; guess unused
+tag.boya	CHRPLY/BOYA	1	244	80	12	tag	ボヤッキーカー	sheet name tag; guess unused
+tag.denden	CHRPLY/DENDEN	1	244	80	12	tag	デンデンメカ	sheet name tag; guess unused
+tag.doron	CHRPLY/DORON	1	244	80	12	tag	ドロンジョカー	sheet name tag; guess unused
+tag.gaikotu	CHRPLY/GAIKOTU1	1	244	80	12	tag	ガイコッツ	sheet name tag; guess unused
+tag.rakuda	CHRPLY/RAKUDA	1	244	80	12	tag	タイムラクーダ	sheet name tag; guess unused
+tag.syareko	CHRPLY/SYAREKO	1	244	80	12	tag	シャレコーベメカ	sheet name tag; guess unused
+tag.sya_bagi	CHRPLY/SYA_BAGI	1	244	80	12	tag	シャレコーベバギー	sheet name tag; guess unused
+tag.tonzr	CHRPLY/TONZR	1	244	80	12	tag	トンズラーカー	sheet name tag; guess unused
+tag.tyarinko	CHRPLY/TYARINKO	1	244	80	12	tag	チャリンコ	sheet name tag; guess unused
+stage1.title	CHRPLY2/TI_ST1	1	96	250	62	card	鷹は舞い下りた! だコロン	STAGE 1 / VS line above are English
+stage2.title	CHRPLY2/TI_ST2	1	89	250	93	card	南の島のヤッターキング! だコロン
+stage3.title	CHRPLY2/TI_ST3	1	89	250	93	card	真昼の決闘! 崖っぷちだよ、ゼンダマン
+stage4.title	CHRPLY2/TI_ST4	1	89	249	94	card	集結! 助っ人メカ 雪原の大バトル!
+stage5.title	CHRPLY2/TI_ST5	1	97	236	62	card	怒れ! 正義の大巨神!
+stage6.title	CHRPLY2/TI_ST6	1	105	240	61	card	灼熱のダブルヒーロー!
+stage7.title	CHRPLY2/TI_ST7	1	90	250	92	card	飛べ!ドロンボー 空中大決戦 だペッチャ!
+st5.safety	ST5/BG/ST5_B2	160	224	96	32	sign	安全第一	road sign; 一 may sit on another tile
+st5.sign_small	ST5/BG/ST5_B2	160	200	96	20	sign	人命尊重(?)	small grey sign, reading unsure
+st5.stop	ST5/BG/ST5_SA0	0	152	66	26	sign	とまれ	street sign
+boss5.plate1	ST5/ENM/R5_BOSS2	70	228	90	28	sign	罪を憎んで、	speech plate
+boss5.plate2	ST5/ENM/R5_BOSS2	160	228	96	28	sign	人を憎まず。	speech plate
+boss5.anger	ST5/ENM/R5_BOSS4	0	216	28	40	sign	怒	kanji on the robot
+end0.r00	CHRPLY2/END_STF0	0	0	244	16	credit	声の出演 ドロンジョ ボヤッキー トンズラー ドクロベー	cell sheet: lines are composed from cells at run time; phase 5 maps them (desu-yo docs/re/cells.md)
+end0.r01	CHRPLY2/END_STF0	0	16	228	16	credit	アニメ制作スタッフ 総監督・絵コンテ
+end0.r02	CHRPLY2/END_STF0	0	34	248	12	credit	演出 ゲストメカ設定 プロデューサー 制作進行 作画監督
+end0.r03	CHRPLY2/END_STF0	0	50	243	12	credit	原画 動画 色指定・検査 仕上げ 美術監督・背景
+end0.r04	CHRPLY2/END_STF0	0	66	252	12	credit	特殊効果 撮影 編集 録音監督 効果 調整 録音スタジオ
+end0.r05	CHRPLY2/END_STF0	0	80	248	16	credit	録音制作 現像 制作協力 制作 竜の子プロダクション
+end0.r06	CHRPLY2/END_STF0	1	97	238	15	credit	小原乃梨子八奈見乗児たてかべ和	name cells
+end0.r07	CHRPLY2/END_STF0	0	113	239	15	credit	也茶風林笹川ひろし石堂宏之徳山	name cells
+end0.r08	CHRPLY2/END_STF0	0	129	240	15	credit	光俊浩由井正内秀二吉田義樹口忠	name cells
+end0.r09	CHRPLY2/END_STF0	0	145	240	15	credit	一重智佐々木斎藤直征須賀十郎相	name cells
+end0.r10	CHRPLY2/END_STF0	0	160	240	16	credit	スタジオ・ラブ♥ハンター泉澤住三塚り文恵沢	name cells
+end0.r11	CHRPLY2/END_STF0	0	177	240	15	credit	スタジオ・キリー本公多喜久横幸太武昌志	name cells
+end0.r12	CHRPLY2/END_STF0	0	193	200	15	credit	健四彦荒麻衣水完加昭西槻夫	name cells; character sprites right of x 200
+end0.r13	CHRPLY2/END_STF0	1	208	199	16	credit	(アニメサウンドプロダクション)(整音スタジオ)
+end0.r14	CHRPLY2/END_STF0	0	224	168	16	credit	ザック・プロモーション東京現像所
+end0.r15	CHRPLY2/END_STF0	104	241	91	14	credit	ベガ・エンタテイメント
+end1.r00	CHRPLY2/END_STF1	0	0	249	16	credit	ゲーム制作スタッフ プログラム グラフィック
+end1.r01	CHRPLY2/END_STF1	0	18	252	12	credit	サウンド 効果音 ディレクター 協力プロデューサー 総指揮
+end1.r02	CHRPLY2/END_STF1	0	34	80	12	credit	企画・制作販売
+end1.r03	CHRPLY2/END_STF1	0	49	240	15	credit	新谷祐樹らい山元健司藤井恵菅原	name cells
+end1.r04	CHRPLY2/END_STF1	1	65	231	15	credit	直子松永貴男OBANA重工小沢和美	name cells; 小 or ハ unsure
+end1.r05	CHRPLY2/END_STF1	0	81	240	15	credit	錦織有亭おばなと竹内巧門悠太大	name cells
+end1.r06	CHRPLY2/END_STF1	0	96	224	16	credit	誉展八郎、Nバンプレスト企画	name cells
+end1.r07	CHRPLY2/END_STF1	2	113	238	15	credit	イレブンBANPRESTO 1996	seahorse mark at the right end
+end1.r08	CHRPLY2/END_STF1	0	128	239	16	credit	©タツノコプロ バンプレ企画
+end1.r09	CHRPLY2/END_STF1	112	152	104	16	credit	バンプレ企画	larger second copy
