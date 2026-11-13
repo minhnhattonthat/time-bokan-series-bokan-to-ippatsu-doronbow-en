@@ -10,11 +10,16 @@ run while a line is unticked.
 - [ ] Credit readings with no source: 35 斎藤直征 (Naoyuki), 42 スタジオ・キリー (Studio Kiri), 45 山本公 (Ko),
   78 錦織有亭 (Yutei). 85 大山誉展 comes from desu-yo's MobyGames reading.
 - [ ] Credit 19 演出 "Episode Director" (codex: "Direction"); kept to match desu-yo's roll.
-- [ ] `voice.12` 今週のやまばぁ "Big scene time!" drops "this week's" (codex); "This week's big moment!" is 30 px over
-  its quad. Phase 7 may widen the voice quads (the uv table) and restore it. Codex round 2 offered "Weekly climax!".
+- [x] `voice.12` 今週のやまばぁ now "Weekly climax!" (codex round 2; 91 of 112 px), restoring "this week's".
 - [ ] `voice.03` 爆弾用意 "Bombs up!" reads oddly (codex); "Ready the bombs!" is over its 72 px quad, as above.
 - [ ] Song titles are our own English (no official ones); `song.17` Zorozoro and `song.18` Patoru! de SHOW keep
   their sound. Reading of ぱとる unchecked.
 - [ ] `st5.sign_small` reading 人命尊重 unsure (phase 4); "Life First" follows that reading.
 - [ ] `wep.sfx` "KA-|BOOM" and `hud.wait`, `hud.pick_mecha`, `boss5.*`, `st5.safety`, `card.p_broken`-`p_failed`,
   `logo.trial` were never drawn in any dump: their layout is a guess until phase 8 sees them.
+- [ ] Phase 6 review minors: `hud.pick_mecha` "< Pick a mecha" in `badge` is 6 px tall (try "< Pick|a mecha");
+  `boss5.anger` "MAD" is a small tag where 怒 fills 28x40 (stack or a bigger class); check both zoomed in phase 8.
+- [ ] Credit 81 協力 "Special Thanks" where desu-yo uses "Cooperation"; credit 37 drops the ♥ of スタジオ・ラブ♥ハンター
+  (credit font is ASCII; restore if a heart glyph is added).
+- [ ] Tonzra ends 8 movie lines on ", I tell ya" (MOVE01.5, .19; MOVE02.18; MOVE03.18; MOVE04.2, .23; MOVE05.4,
+  .13): vary a few. MOVE04.2's ` || ` split should land on the Boyacky/Tonzra voice change.

@@ -64,7 +64,7 @@ voice.08	We're beat, I tell ya!		Tonzra (まんねん)
 voice.09	This'll knock 'em flat!		Tonzra (イチコロや)
 voice.10	Oh, drat!
 voice.11	Aw, what'll I do?!		Tonzra (どないしよ)
-voice.12	Big scene time!		今週のヤマ場, "this week's big scene" (reading of the last kana unsure)
+voice.12	Weekly climax!		今週のヤマ場, "this week's big scene" (reading of the last kana unsure)
 voice.13	Owww!
 voice.14	Mecha fight!
 voice.15	Staaart!
@@ -93,7 +93,7 @@ sel.gameover	Game Over
 sel.join_ok	Join In!		参加OK: player 2 may join
 sel.repair	Under|Repair		整備中 stamp, red cross over it
 sel.banner	Ready to Launch		出撃準備
-hud.pochitto	Annnd|click!		ポチっとな badge, the catchphrase whole
+hud.pochitto	Annnd...|click!		ポチっとな badge, the catchphrase whole
 hud.wait	Hold|on!		ちょっと待ってね!, two 32x16 pieces stacked
 hud.pick_mecha	< Pick a mecha	badge	◀メカをえらんで
 hud.gameover	Game Over
