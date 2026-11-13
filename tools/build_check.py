@@ -24,10 +24,11 @@ import tim
 import tl_check
 
 RING = 6  # px around a rect searched for leftover ink
-# Rows whose fill index is also art beside the rect, read zoomed on row_sheet.py crops (2026-11-14): title panel frame,
-# HUD art, the ranking skull, the voice list's side marks, the steel of the STOP sign, ship art round the name.
-INK_NEAR_RECT = {"title.start", "title.card", "ship.rakuda", "rnk.ranking", "rnk.score", "hud.gameover", "voice.06",
-                 "voice.21", "st5.stop"} | {f"song.{i:02}" for i in range(1, 21)}  # song plates' bevel and bolts
+# Pixels of a row's fill index beside its rect that are art, read zoomed on row_sheet.py crops (2026-11-14): title panel
+# frame, the ranking skull, the voice list's side marks, the steel of the STOP sign, the song plates' bevel and bolts
+# (song.13's plate has fewer). Exact counts, so a new leftover glyph piece in one of these rows still fails.
+ART_NEAR_RECT = {"title.start": 78, "title.card": 894, "rnk.ranking": 62, "rnk.score": 63, "voice.06": 27,
+                 "voice.21": 6, "st5.stop": 707} | {f"song.{i:02}": 645 if i == 13 else 658 for i in range(1, 21)}
 
 
 def allowed_rects():
@@ -51,7 +52,7 @@ def leftovers(name, old, new, t, items, by_id, budgets):
     errs = []
     taken = [r[0] for _, r in items] + [(o.x, o.y, o.w, o.h) for o in by_id.values() if o.file == name and o.form != "keep"]
     for rid, row in items:
-        if rid in INK_NEAR_RECT:
+        if not row[1]:  # a clear-only rect (gfx.CLEARS)
             continue
         o = by_id[rid]
         (x, y, w, h), box = row[0], gfx.uv_box(budgets[rid], row[0]) if rid in budgets else row[0]
@@ -61,9 +62,10 @@ def leftovers(name, old, new, t, items, by_id, budgets):
             near[ry:ry + rh, rx:rx + rw] = False
         _, fill, _ = gfx.sampled_inks(old[o.y:o.y + o.h, o.x:o.x + o.w], t.clut)
         hits = near & (old == new) & np.isin(old, np.unique(fill))
-        if hits.any():
+        if hits.sum() != ART_NEAR_RECT.get(rid, 0):
             ys, xs = np.nonzero(hits)
-            errs.append(f"{rid}: {len(ys)} px of original ink beside the rect, first at {xs[0]},{ys[0]}")
+            errs.append(f"{rid}: {len(ys)} px of original ink beside the rect (art: {ART_NEAR_RECT.get(rid, 0)}), "
+                        f"first at {xs[0] if len(xs) else '-'},{ys[0] if len(ys) else '-'}")
     return errs
 
 
@@ -118,7 +120,12 @@ def check(build_dir):
         old, new = a.read(path), b.read(path)
         files += 1
         if name == build.EXE:
-            errs += [f"{build.EXE}: {e}" for e in romdiff.check(old, new, exe_ranges(), [])[0]]
+            log = []  # the build's EXE writes, redone on the dump: original bytes, overlaps, a byte nobody wrote
+            build.english_files(a, log)
+            ok = exe_ranges()
+            errs += [f"{build.EXE}: 0x{o:06X} {by} outside the page table and card title" for o, b0, _, by in log
+                     if not ok.issuperset(range(o, o + len(b0)))]
+            errs += [f"{build.EXE}: {e}" for e in romdiff.check(old, new, set(), log)[0]]
             continue
         t = tim.parse(old)
         if old[:t.px_off] != new[:t.px_off]:

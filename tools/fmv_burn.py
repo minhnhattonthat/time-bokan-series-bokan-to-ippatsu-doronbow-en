@@ -1,8 +1,9 @@
 """Burn subtitles into STR movies on a built disc, in place: only macroblocks under the text are repainted, each frame
 keeps its sectors, and audio sectors stay untouched (see tools/mdec.py). A frame that no longer fits its sectors is
-re-quantised whole, up to +4 steps: most subtitled frames in the final build (7,347 of 8,584).
+re-quantised whole, one step at a time up to mdec.MAX_Q: here most subtitled frames (MOVE04 1390 of 1472), +6 to +12
+steps per movie at most (phase 7 build).
 
-Library: burn_all(track_path, text_of) where text_of(movie, n, row) gives a subtitle string or None."""
+Library: burn_all(track_path, subs_of) where subs_of(movie) gives [(start s, end s, text)]."""
 import concurrent.futures as cf
 import os
 import struct

@@ -86,7 +86,7 @@ voice.26	CHRPLY2/OPTI_06	2	224	97	16	voice	いったぁ~い!
 voice.27	CHRPLY2/OPTI_06	106	224	134	16	voice	それは整備中なの!
 ship.syareko	CHRPLY/SELNAME	154	2	102	28	name	シャレコーベメカ
 ship.andoro	CHRPLY/SELNAME	154	30	102	28	name	アンドロメダマ号
-ship.rakuda	CHRPLY/SELNAME	156	64	96	26	name	タイムラクーダ
+ship.rakuda	CHRPLY/SELNAME	155	64	98	31	name	タイムラクーダ
 ship.sya_bagi	CHRPLY/SELNAME	152	98	104	24	name	シャレコーベバギー
 ship.denden	CHRPLY/SELNAME	156	127	90	26	name	デンデンメカ
 ship.doron	CHRPLY/SELNAME	152	159	104	28	name	ドロンジョカー
@@ -100,10 +100,10 @@ sel.banner	CHRPLY/SEL_BG	16	144	168	32	banner	出撃準備
 hud.pochitto	CHRPLY/KIHON	198	96	26	26	badge	ポチっとな	not reached yet (docs/re/state.md)
 hud.wait	CHRPLY/KIHON	226	174	30	34	badge	ちょっと待ってね!	split across the page edge; not reached yet
 hud.pick_mecha	CHRPLY/KIHON	182	214	56	20	label	◀メカをえらんで	not reached yet
-hud.gameover	CHRPLY/KIHON	182	236	56	20	label	ゲームオーバー
+hud.gameover	CHRPLY/KIHON	176	234	64	22	label	ゲームオーバー
 rnk.ranking	CHRPLY/RNK	4	97	108	30	banner	ランキング	skull between the words
-rnk.score	CHRPLY/RNK	126	97	52	30	banner	スコア
-wep.sfx	CHRPLY/D_WEPON	196	128	60	50	sfx	ボー カン	vertical kana in two columns (ボ ー | カ ン); how they combine is phase 5
+rnk.score	CHRPLY/RNK	126	97	60	30	banner	スコア
+wep.sfx	CHRPLY/D_WEPON	188	128	68	50	sfx	ボー カン	vertical kana in two columns (ボ ー | カ ン); how they combine is phase 5
 tag.andoro	CHRPLY/ANDORO	1	244	80	12	tag	アンドロメダ号	sheet name tag; guess unused
 tag.boya	CHRPLY/BOYA	1	244	80	12	tag	ボヤッキーカー	sheet name tag; guess unused
 tag.denden	CHRPLY/DENDEN	1	244	80	12	tag	デンデンメカ	sheet name tag; guess unused
@@ -123,7 +123,7 @@ stage6.title	CHRPLY2/TI_ST6	1	105	240	61	card	灼熱のダブルヒーロー!
 stage7.title	CHRPLY2/TI_ST7	1	90	250	92	card	飛べ!ドロンボー 空中大決戦 だペッチャ!
 st5.safety	ST5/BG/ST5_B2	160	224	96	32	sign	安全第一	road sign; 一 may sit on another tile
 st5.sign_small	ST5/BG/ST5_B2	160	200	96	20	sign	人命尊重(?)	small grey sign, reading unsure
-st5.stop	ST5/BG/ST5_SA0	0	152	66	26	sign	とまれ	street sign
+st5.stop	ST5/BG/ST5_SA0	0	152	72	26	sign	とまれ	street sign
 boss5.plate1	ST5/ENM/R5_BOSS2	70	228	90	28	sign	罪を憎んで、	speech plate
 boss5.plate2	ST5/ENM/R5_BOSS2	160	228	96	28	sign	人を憎まず。	speech plate
 boss5.anger	ST5/ENM/R5_BOSS4	0	216	28	40	sign	怒	kanji on the robot

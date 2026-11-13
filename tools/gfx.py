@@ -200,6 +200,9 @@ def typeset(data, rows):
     for (x, y, w, h), text, form, align, *forced in rows:
         clut = pal(t, forced.pop() if forced and isinstance(forced[0], int) else None)
         assert x + w <= px.shape[1] and y + h <= px.shape[0], f"rect {x, y, w, h} outside {px.shape[1]}x{px.shape[0]}"
+        if not text:  # a clear-only rect (CLEARS): a glyph piece the row's own rect can't reach
+            px[y:y + h, x:x + w] = forced[0].bg
+            continue
         ink, halo = glyphs(text, form)
         gh, gw = ink.shape
         if gw > w or gh > h:
@@ -208,8 +211,15 @@ def typeset(data, rows):
         bg, fill, line = sampled_inks(px[y:y + h, x:x + w], clut, margin)
         clear = True
         if forced:
-            fill, line, clear = np.full(h, forced[0].fill), forced[0].line, forced[0].clear
-            if forced[0].bg == "row":  # each row's commonest non-text index of the rect itself (plates with bevels)
+            if isinstance(forced[0].fill, tuple):  # a gradient, top to bottom over the rect, as the Japanese glyphs
+                fill = np.array(forced[0].fill)[np.linspace(0, len(forced[0].fill) - 1, h).round().astype(int)]
+            elif forced[0].fill is not None:  # None keeps the sampled fill
+                fill = np.full(h, forced[0].fill)
+            line, clear = forced[0].line, forced[0].clear
+            if forced[0].bg == "above":  # textured plate: the rect takes the same-size patch just above it
+                px[y:y + h, x:x + w] = px[y - h:y, x:x + w]
+                clear = False
+            elif forced[0].bg == "row":  # each row's commonest non-text index of the rect itself (plates with bevels)
                 cell0 = px[y:y + h, x:x + w]
                 bg = np.array([mode(r[~np.isin(r, (forced[0].fill, line))]) if (~np.isin(r, (forced[0].fill, line))).any()
                                else int(r[0]) for r in cell0])
@@ -252,8 +262,18 @@ def widened(rect, need_w, need_h, box, others):
 CANVAS_ROWS = ("card.p_memory", "card.p_inserted", "card.p_card", "card.p_imasen")
 # The no-card message: two 64x40 quads side by side on screen (budgets.tsv), so one 128x40 canvas cut in two.
 CANVAS_PIECES = ((32, 0, 64, 40, 0), (40, 40, 64, 40, 64))  # TIM x, y, w, h, canvas column
-ROW_INKS = {}  # row id: Inks, for rows whose sampled inks fail (phase 8 adds them from zoomed shots)
+# row id: Inks, for rows whose sampled inks fail, read on row_sheet.py crops. Title and card menus: the Japanese blue
+# gradient with the white outline (sampling took the dark green shadow); options: white on black (sampling alternated).
+MENU_BLUE = (2, 3, 4, 5, 6)  # TITLE3/TITLE4 cyan to blue
+ROW_INKS = {**{f"title.{k}": Inks(MENU_BLUE, 10) for k in ("start", "options", "card")},
+            "card.save": Inks(MENU_BLUE, 15), "card.load": Inks(MENU_BLUE, 15),
+            **{f"opt.{k}": Inks(15, 1) for k in ("level1", "level2", "level3", "level4", "credit", "sound", "keys",
+                                                 "shot", "bomb")},
+            "ship.rakuda": Inks(10, 15), "st5.stop": Inks(15, 10, bg="above")}
 SONG_INKS = Inks(15, 1, bg="row")  # white, as the Japanese titles, on each row's own plate colour
+# row id: ((x, y, w, h, background index), ..) cleared beside the row, for glyph pieces an art piece keeps its rect from
+# reaching: the tail of スコア's ス sits under the ranking skull (x 108-125, y 96-110).
+CLEARS = {"rnk.score": ((118, 112, 8, 14, 0),)}
 
 
 def no_card(data):
@@ -289,6 +309,7 @@ def english_items():
     budgets = {b["id"]: b for b in tl_check.table(ROOT / "script" / "budgets.tsv")}
     by_id = {r.id: r for r in gfx_script.rows()}
     cluts = drawn_cluts()
+    grown = {}  # row id: its finished rect, so two rows that both grow can't overlap
     for e in tl_check.table(ROOT / "script" / "en" / "graphics.tsv"):
         r = by_id[e["id"]]
         if r.id in CANVAS_ROWS or not e["en"]:
@@ -298,9 +319,13 @@ def english_items():
         if r.id.startswith("song."):  # the whole plate inside its bolts, so the rect takes 」 too; left, as the Japanese
             rect = (r.x, r.y, tl_check.SONG_W, r.h)
         gh, gw = glyphs(e["en"], form)[0].shape
-        others = [(o.x, o.y, o.w, o.h) for o in by_id.values() if o.file == r.file and o.id != r.id and o.form != "keep"]
+        others = [grown.get(o.id, (o.x, o.y, o.w, o.h)) for o in by_id.values()
+                  if o.file == r.file and o.id != r.id and o.form != "keep"]
         if gw > rect[2] or gh > rect[3]:
             rect = widened(rect, max(gw, rect[2]), max(gh, rect[3]), uv_box(budgets[r.id], rect), others)
+        grown[r.id] = rect
+        for *c, bg in CLEARS.get(r.id, ()):
+            yield r.id, r.file, (tuple(c), "", form, "c", Inks(bg, bg, True, bg))
         row = (rect, e["en"], form, "l" if r.id.startswith("song.") else "c")
         inks = ROW_INKS.get(r.id, SONG_INKS if r.id.startswith("song.") else None)
         if inks:

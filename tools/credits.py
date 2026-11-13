@@ -180,11 +180,12 @@ def pack(strips, keep):
     return at
 
 
-def english(exe, sheet_data):
+def english(exe, sheet_data, log=None):
     """(exe, {sheet: TIM bytes}) with the English roll: every text cell cleared (icons kept), each line's parts
     (script/en/credits.tsv, "|") lettered flat in the line's own ink, as the Japanese glyphs (no outline), packed into
     the sheet its page samples, and the line's page entries pointed at them in place. A line with fewer parts than
-    entries repeats its last part; one with more joins its last parts into one strip."""
+    entries repeats its last part; one with more joins its last parts into one strip. log: a list that gets one
+    romdiff write (offset, original bytes, new bytes, by) per page entry."""
     import numpy as np
     import gfx
     import tl_check
@@ -276,6 +277,8 @@ def english(exe, sheet_data):
             u, v = at[key]
             s = strips[key][0]
             struct.pack_into("<4B2H", out, e.off, u, v, x + dx, y, s.shape[1], s.shape[0])
+            if log is not None:
+                log.append((e.off, bytes(exe[e.off:e.off + 8]), bytes(out[e.off:e.off + 8]), f"page entry {pi}"))
     new = {f: tim.with_pixels(tims[f], sheet_data[f], px[f].reshape(-1).tolist()) for f in SHEETS}
     return bytes(out), new
 

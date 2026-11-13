@@ -19,8 +19,10 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - Inks: title menu and options rows come out striped/low contrast (fill per row off a gradient); `hud.gameover`
     stripes (desu-yo used `Inks(15, 10)`); ship names (e.g. `ship.rakuda`) pale on pale. Add `gfx.ROW_INKS`.
   - `st5.stop`: the clear leaves a flat band on the steel texture (inpaint, desu-yo `gfx.inpainted`).
-  - `build_check.INK_NEAR_RECT` lists rows whose leftover hits were read as art (title panel frame, rnk skull, voice
-    side marks, song bevels, st5 steel, ship art): confirm in game. Staff roll page 15 head is drawn in blue (game CLUT).
+  - `build_check.ART_NEAR_RECT` holds exact counts of fill-index pixels beside rects read as art (title panel frame,
+    rnk skull, voice side marks, song bevels, st5 steel): confirm in game. Staff roll page 15 head is drawn in blue (game CLUT).
+  - Short subtitles: `MOVE03.9` "Hey, now!" shows 0.6 s, `MOVE04` "We did it!" 14 frames (next row cuts `MIN_SHOW`);
+    recheck with exact frame times.
   - Sound scene final shot shows "It's under repair!" on the options list: check which row that is.
 - **Done:**
   - Step 0: dump pinned (`rom.sha1`, 23 files), pre-commit hook in `tools/hooks` (a failing test blocked a commit), guard blocks `sed -i`, `tools/skill.py` prints the skill path, smoke boots the original disc on `tools/pcsx` and a scripted Start skips the opening FMV to the title. Not tested: GUI keyboard input (headless run). Tools copied from desu-yo: `disc.py`, `tim.py` (+ `best_clut`, `png ... auto`), `tim_sheets.py`, `tim_survey.py`, `str_frames.py`, `strings_scan.py`, `vram.py`, `tbl.py`, `bps.py`, `romdiff.py`. New: `sjis_scan.py`.
@@ -57,14 +59,14 @@ Updated at the end of every session. Keep it to what the next session needs; his
   frames); MOVE04.2's split should land on the voice change.
 - **Phase 5 limits:**
   - Review was by the implementer in a separate read pass, not independent (no codex run). Screens read zoomed: about 12; the other scenes only passed their state checks.
-  - Burning the 3-line marker forced a qscale rise on every subtitled frame (+7 to +15; base q 4-8), so the frames go blocky. Real subtitles are shorter; phase 7 must measure the cost and, if needed, re-quantise only the macroblocks off the text or cap at 2 lines (`fmv_sheet.py --slack`: median 736-1332 bytes free per frame).
+  - Burning the 3-line marker forced a qscale rise on every subtitled frame (+7 to +15; base q 4-8), so the frames go blocky. Real subtitles are shorter; phase 7 measured it (+6 to +12, most subtitled frames); phase 8 decides whether to re-quantise only the macroblocks off the text or cap at 2 lines (`fmv_sheet.py --slack`: median 736-1332 bytes free per frame).
   - 15 rows were never drawn in a dump (`source` none in budgets.tsv): their limit is the rect, a guess. Ship names and tags of the six ships the select scenes never offer use `sibling` boxes.
   - Inks: `typeset` takes the CLUT row the game draws a row with (budgets `clut`), but rows drawn with two rows (options: normal and highlighted) need checking in both; the card menu's LOAD came out dark and thin in the spike: phase 7 needs per-row inks (desu-yo `ROW_INKS`).
   - `sel.join_ok`'s rect stops before the English "K" of 参加OK; phase 7 grows it or keeps "OK" and replaces 参加 only.
   - The no-card message is two 64x40 quads side by side (canvas); title menu is one 144x80 quad; options rows are 240x32 quads: English can use those boxes, not only the rects (`docs/re/credits.md`).
 - **Phase 4 limits (carry into 6-7):**
   - Rects are by eye/ink scan; `card.p_*` pieces (TITLE4 top-left and row y102) and `hud.wait` split by eye. Staff roll rows `end0.r*`/`end1.r*` are glyph-sheet strips, not credit lines: translate by line from `script/credits.tsv` (phase 5). Readings of name kanji 小(?) in `end1.r04` and `st5.sign_small` 人命尊重(?) unsure. `wep.sfx` is ボ ー | カ ン in two columns; how they combine is phase 5.
-  - FMV text not ear-checked: faster-whisper large-v3 (CPU) drafts in `work/fmv/`, corrected from franchise knowledge (三悪 was heard as 山岳, hero names, アラホラサッサー), raw reading kept as `was:`; rows with `?` are guesses, speakers inferred from speech style. Second pass (`tools/fmv_clip.py`) on MOVE04 103-140 s and MOVE06 5-30 s. MOVE06 (Dokurobey, logprob -1.0) is weakest. Hallucinated "ご視聴ありがとうございました" tails dropped. Times are Whisper's; phase 7 takes exact frames.
+  - FMV text not ear-checked: faster-whisper large-v3 (CPU) drafts in `work/fmv/`, corrected from franchise knowledge (三悪 was heard as 山岳, hero names, アラホラサッサー), raw reading kept as `was:`; rows with `?` are guesses, speakers inferred from speech style. Second pass (`tools/fmv_clip.py`) on MOVE04 103-140 s and MOVE06 5-30 s. MOVE06 (Dokurobey, logprob -1.0) is weakest. Hallucinated "ご視聴ありがとうございました" tails dropped. Times are Whisper's; exact frames moved to phase 8 (not done in 7).
   - Review: same-agent read-only re-pass of crops, not independent (no codex run).
 - **Not reached yet (phase 7/8 coverage, not blocking):** `KIHON` ポチっとな badge and ◀メカをえらんで, `sel.gameover`, `wep.sfx`, `st5.safety`, boss 5 plates and 怒 (no dump drew them); card messages カードがこわれてます / ロードに失敗しました (need a card with a damaged save); 体験版 stamp (likely unused); six ship names and seven tags (ships the select scenes never offer). ちょっと待ってね! (`hud.wait`) was drawn. Details in `docs/re/state.md` §Not settled, `docs/re/credits.md`.
 - **Open bugs:** none.

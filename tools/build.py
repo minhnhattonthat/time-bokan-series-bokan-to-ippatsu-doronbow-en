@@ -26,19 +26,22 @@ def rebuild(data):
     return tim.with_pixels(t, data, tim.pixels(t, data)) if t else data
 
 
-def english_files(d):
+def english_files(d, log=None):
     """{file name: new bytes} of the files whose English isn't per TIM row: BOKAN.EXE (staff roll page table, card
-    title) and the two staff roll glyph sheets."""
+    title) and the two staff roll glyph sheets. log: a list that gets the EXE's romdiff writes."""
     import credits
     import script_text
     import tl_check
     path = {e.path.strip("/").removesuffix(".BIN"): e.path for e in d.files.values()}
-    exe, sheets = credits.english(d.read(path[EXE]), {f: d.read(path[f]) for f in credits.SHEETS})
+    exe, sheets = credits.english(d.read(path[EXE]), {f: d.read(path[f]) for f in credits.SHEETS}, log)
     exe = bytearray(exe)
     en = {r["id"]: r["en"] for r in tl_check.table(tl_check.EN / "text.tsv")}
     for r in script_text.rows():
         assert r.file == EXE and script_text.decode(exe[r.offset:r.offset + r.size]) == r.jp, r.id
-        exe[r.offset:r.offset + r.size] = script_text.encode(en[r.id], r.size)
+        new = script_text.encode(en[r.id], r.size)
+        if log is not None:
+            log.append((r.offset, bytes(exe[r.offset:r.offset + r.size]), new, r.id))
+        exe[r.offset:r.offset + r.size] = new
     return {EXE: bytes(exe), **sheets}
 
 
