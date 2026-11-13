@@ -56,6 +56,12 @@ Official spellings from Tatsunoko's English site (checked for desu-yo, 2026-11-0
 | スカポンタン | numbskull | | | |
 | ポチッとな / ポチっとな | click | | "Annnd... click!" | |
 | 整備中 | Under Repair | | ship-select stamp | |
+| 三悪 | trio | | each show's villain trio: "villain trio(s)", "the toughest trio" | |
+| おしおき / お仕置き | punishment | | Dokurobey's threat | |
+| アクダマン | Akudaman | | Zenderman's villain trio | |
+| オジャママン | Ojamaman | | Rescueman's villain trio | |
+| チャリンコ | Bicycle | | the gang's old bike | |
+| バンプレ企画 | Banpre Kikaku | | Banpresto's planning label, as romanized on its games | |
 
 ## Decisions from earlier batches
 - Dialogue tics as in desu-yo's `docs/style-reference.md`: Dokurobey ", y'hear"; Tonzra ", I tell ya"; Boyacky "little ol' me".

@@ -1,0 +1,125 @@
+id	en	class	note
+logo.trial	TRIAL		体験版 stamp; never drawn in retail (guess)
+title.start	Start
+title.options	Options
+title.card	Memory Card
+title.copy_tatsu	(C) Tatsunoko Pro	tag	copyright line; (C) for the sign, plain ASCII
+title.copy_banpre	(C) Banpre Kikaku 1996	tag	Banpresto's planning label, as romanized on its own games
+card.save	Save
+card.load	Load
+card.access	Accessing
+card.save_ok	Save OK!
+card.load_ok	Load OK!
+card.this_card	This memory card		format prompt, line 1 of 3
+card.unformatted	is not formatted.		line 2
+card.format_q	Format it?		line 3
+card.no_space	Not enough space
+card.no_data	No data found
+card.p_memory	No memory card|inserted		no-card message: one 128x40 canvas over the two 64x40 quads (docs/re/credits.md)
+card.p_inserted			canvas: drawn by card.p_memory
+card.p_card			canvas: drawn by card.p_memory
+card.p_imasen			canvas: drawn by card.p_memory
+card.p_broken	The card is		damaged-card message, line pieces as the original: p_broken + p_temasu; never drawn
+card.p_temasu	damaged
+card.p_save	Save		p_save or p_load, then p_failed: "Save failed!"
+card.p_load	Load
+card.p_failed	failed!
+opt.level1	Game Level 1 (Easy)
+opt.level2	Game Level 2 (Normal)
+opt.level3	Game Level 3 (Tough)		むずい: casual "hard"
+opt.level4	Game Level 4 (Brutal)		げきむず: casual "super hard"
+opt.credit	Credits		the credit count sits beside it
+opt.sound	Sound Test
+opt.keys	Controls		キーコンフィグ; "Key Config" is an abbreviation
+opt.shot	Shot
+opt.bomb	Bomb
+song.01	Time Bokan	credit	songs: Jersey 15 and no 「」 quotes, so the longest title (song.12) fits whole (D12)
+song.02	Go Go Gaikottsu	credit
+song.03	The Yatterman Song	credit
+song.04	Genius Doronbow	credit
+song.05	Yatter King	credit
+song.06	Doronbow's Big Letdown	credit	シラーケッ: the mood falls flat (desu-yo's lyric card title)
+song.07	The Zenderman Song	credit
+song.08	Akudaman Again	credit	Akudaman: Zenderman's villain trio
+song.09	The Rescueman Song	credit
+song.10	Ah-Uh Ojamaman	credit	Ojamaman: Rescueman's villain trio
+song.11	The Yattodetaman Song	credit
+song.12	Yattodetaman Boogie-Woogie Lady	credit	fills the plate, as the Japanese
+song.13	Gyakuten! Ippatsuman	credit
+song.14	Shibibin Rhapsody	credit
+song.15	Itadaki Mambo	credit
+song.16	Highlight of Justice	credit
+song.17	Zorozoro March	credit	zorozoro: trooping along in a crowd; kept as sound
+song.18	Patoru! de SHOW	credit	ぱとる: from patrol; pun on でしょう, kept as written
+song.19	Strike Doronbow	credit
+song.20	Doronbow at Sunset	credit
+voice.01	Hup! Ho!		エッホ: puffing at work; voice rows fit their own quads (uv table not moved)
+voice.02	Oh noooo!		あれ~っ: Doronjo's cry as she's blown away
+voice.03	Bombs up!		爆弾用意
+voice.04	Eeeek!		きゅ~っ: squeak as one is squashed
+voice.05	Let 'em have it!		Doronjo's stock order
+voice.06	What the heck?!
+voice.07	Numbskulls!
+voice.08	We're beat, I tell ya!		Tonzra (まんねん)
+voice.09	This'll knock 'em flat!		Tonzra (イチコロや)
+voice.10	Oh, drat!
+voice.11	Aw, what'll I do?!		Tonzra (どないしよ)
+voice.12	Big scene time!		今週のヤマ場, "this week's big scene" (reading of the last kana unsure)
+voice.13	Owww!
+voice.14	Mecha fight!
+voice.15	Staaart!
+voice.16	Here I gooo!		いくわよ~ん: Doronjo, flirty
+voice.17	Aww, how annoying!
+voice.18	Arahora-sassa!
+voice.19	Move ouuut!
+voice.20	Whaaat?!
+voice.21	Now, which to use?
+voice.22	Get it together!
+voice.23	Options!
+voice.24	Annnd... click!
+voice.25	Pick a mecha, please
+voice.26	Ow, that hurt!
+voice.27	It's under repair!
+ship.syareko	Skull Mecha
+ship.andoro	Andromedama		アンドロメダマ号: 号 is the ship designation, dropped as in desu-yo
+ship.rakuda	Time Rakuda
+ship.sya_bagi	Skull Buggy
+ship.denden	Denden Mecha
+ship.doron	Doronjo Car
+ship.boya	Boyacky Car
+ship.tonzr	Tonzra Car
+ship.gaikotu	Gaikottsu
+sel.gameover	Game Over
+sel.join_ok	Join In!		参加OK: player 2 may join
+sel.repair	Under|Repair		整備中 stamp, red cross over it
+sel.banner	Ready to Launch		出撃準備
+hud.pochitto	Annnd|click!		ポチっとな badge, the catchphrase whole
+hud.wait	Hold|on!		ちょっと待ってね!, two 32x16 pieces stacked
+hud.pick_mecha	< Pick a mecha	badge	◀メカをえらんで
+hud.gameover	Game Over
+rnk.ranking	Ranking
+rnk.score	Score
+wep.sfx	KA-|BOOM		ボーカン: the explosion sound
+tag.andoro	Andromedama		tag reads アンドロメダ号
+tag.boya	Boyacky Car
+tag.denden	Denden Mecha
+tag.doron	Doronjo Car
+tag.gaikotu	Gaikottsu
+tag.rakuda	Time Rakuda
+tag.syareko	Skull Mecha
+tag.sya_bagi	Skull Buggy
+tag.tonzr	Tonzra Car
+tag.tyarinko	Bicycle		チャリンコ: the gang's old bike (MOVE03)
+stage1.title	The Hawk Has|Landed, Koron!		parody of The Eagle Has Landed; Omotchama's tic
+stage2.title	Yatter King of|the Southern Isle,|Koron!
+stage3.title	High Noon Showdown!|On the Brink,|Zenderman!		真昼の決闘 is High Noon's Japanese title
+stage4.title	Helper Mecha, Assemble!|Big Snowfield|Battle!
+stage5.title	Rage, Daikyojin|of Justice!
+stage6.title	The Scorching|Double Heroes!
+stage7.title	Fly, Doronbow!|Great Air Battle,|Peccha!		Perasuke's tic
+st5.safety	Safety|First
+st5.sign_small	Life First		人命尊重 (reading unsure)
+st5.stop	STOP
+boss5.plate1	Hate the crime,
+boss5.plate2	not the person.
+boss5.anger	MAD		怒 on the robot
