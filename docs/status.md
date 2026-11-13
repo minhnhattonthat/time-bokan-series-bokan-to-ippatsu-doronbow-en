@@ -2,8 +2,9 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 9. Release done (2026-11-14): v1.0 zip built and verified in `release/` (gitignored). Publishing
-  (`gh release create`) is the owner's call; nothing else is open.
+- **Phase:** 9. v1.0 published on GitHub releases (2026-11-14), Track 01 SHA-1 `89ca1c48aa58726217b5f9ec87db914551b33d02`:
+  the build below plus FMV subtitles 0.3 s later (D16). QA tour not re-run for that change: owner-approved
+  `qa_gate.py waive` (only movie timing moved). Nothing else is open.
 - **Phase 9 result (build Track 01 SHA-1 `2eae4d85ef31c080820596ebd2534d3669a5e293`, CRC32 b77d42af):**
   `tools/release.py --no-build --force` exit 0: check_rom, `check.py` 44 passed, tl_check OK, build_check 0 findings,
   smoke ok, `jp_left.py --sjis` 0 runs in all 10 program files (the card title, the original's one hit, is English),
