@@ -11,7 +11,7 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - Inks (`gfx.ROW_INKS`, `Inks.fill` may be None = sampled or a tuple = gradient; `bg="above"` copies the patch
     above the rect): title/card menus `MENU_BLUE` + white outline, options white on black, ship names and sel
     labels solid on white, card messages, badges, tags (white on the bar), st5 signs. `gfx.stamp_x` redraws the X
-    under 整備中. `st5.sign_small` reads 火器厳禁 ("No Flames"). Uncommitted: `gfx.LEFT` (title and card menu rows
+    under 整備中. `st5.sign_small` reads 火器厳禁 ("No Flames"). After the tour: `gfx.LEFT` (title and card menu rows
     left-aligned on the Japanese column) - not built or toured yet.
   - Tools: `qa_sheets.py`, `row_cover.py`, `rect_spill.py` (+`rectcover.py`) from desu-yo; `fmv_sheet.py --subs`
     (one frame per subtitle, `moveNN_PP_sheet.png`); **`qa_codex.py CHUNK OUT.tsv`**: independent verdicts by
