@@ -46,9 +46,12 @@ local function to_stage(n, ship, card_only)
   for _ = 1, ship or 0 do W.tap("right"); W.frames(20) end
   W.tap("circle")
   W.wait_task(W.CARD, 2000)
+  if card_only then  -- the title zooms and flips in and out: a burst of shots catches it whole
+    for i = 1, 16 do W.frames(30); W.shot(string.format("card%02d", i)) end
+    return
+  end
   W.frames(150)
   W.shot("card")
-  if card_only then return end
   W.wait_task(W.STAGE_TASK, 2000)
   W.frames(120)
 end
@@ -262,6 +265,22 @@ for n = 1, 7 do S["clear" .. n] = function()
   W.frames(300)
   W.done()
 end end
+-- Staff roll for tools/credits.py: MOVE05 then the ending, a shot every STEP frames (default 60) while the ending runs.
+-- With --prims each shot carries the quads on screen, which give each credit line's pieces.
+S.staff = function()
+  to_stage(7)
+  W.call(0x80019CB8, 4)                                           -- MOVE05, then the ending
+  W.wait_task(W.ENDING, 9000)
+  local i = 0
+  while W.task() == W.ENDING do
+    W.frames(STEP or 60)
+    i = i + 1
+    W.shot(string.format("s%03d", i))
+    assert(i < 400, "ending never ended")
+  end
+  W.check(i > 100, "staff roll ran")
+  W.done()
+end
 -- Whole stage with GOD and circle (the shot) held: a shot every 300 frames through backgrounds and mid-bosses, until
 -- the scroll holds for 3600 frames (the boss arena; mid-bosses hold it for under 2000). Then 6 shots of the boss.
 for n = 1, 7 do S["tour" .. n] = function()

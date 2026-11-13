@@ -1,0 +1,34 @@
+id	en	class
+title.start	START
+title.options	OPTIONS
+title.card	MEMORY CARD	label
+card.save	SAVE
+card.load	LOAD
+card.access	ACCESSING
+card.no_data	NO DATA FOUND
+opt.level1	GAME LEVEL 1: EASY
+opt.level4	GAME LEVEL 4: BRUTAL
+opt.credit	CREDITS
+opt.sound	SOUND TEST
+opt.keys	KEY CONFIG
+opt.shot	SHOT
+song.02	"Go Go Gaikottsu"
+song.12	Boogie-Woogie Lady
+voice.05	Let 'em have it!
+voice.25	Choose your mecha!
+ship.syareko	Sharekobe Mecha
+ship.andoro	Andromedama
+sel.gameover	GAME OVER
+sel.join_ok	JOIN OK
+sel.repair	UNDER|REPAIR
+sel.banner	SORTIE PREP
+hud.gameover	GAME OVER
+rnk.ranking	RANKING
+rnk.score	SCORE
+tag.syareko	Sharekobe Mecha
+stage1.title	The Hawk Has Landed!|-koron
+stage5.title	Rage, Giant of Justice!
+st5.safety	SAFETY|FIRST
+st5.stop	STOP
+boss5.plate1	Hate the crime,
+boss5.plate2	not the person.
