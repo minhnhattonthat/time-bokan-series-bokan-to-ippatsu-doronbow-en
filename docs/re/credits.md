@@ -25,6 +25,13 @@ credits.tsv line and every credits.tsv line is on a page; nothing unmatched but 
 pieces than its page has must be drawn as fewer, wider pieces). Six lines join a role and its first names on one row
 (`role+name` kind); they sit at one y in the table.
 
+**English (phase 7, `credits.english`):** both sheets cleared but the icons (face icons, seahorse), each line's parts
+lettered flat (D15) in the commonest ink of its Japanese cells, shelf-packed (`credits.pack`) into the sheet its page
+samples (pages 0-14 END_STF0, 15-24 END_STF1), and the page entries rewritten in place: a line with spare entries
+repeats its last part, one with too few joins its tail into one strip. Screen x = page x + 32 (staff dumps), so a line
+must end by page x 276; two lines at one y slide apart (right one right, then left one left). The page pointers sit in
+12-byte records at RAM 0x800A1C68 (`ptr, 2, 0`); the per-page sheet choice is not there and was not traced.
+
 ## Drawn-quad budgets
 
 `warp_all.py --prims` dumps RAM and VRAM at every shot; `tools/prims.py rows` matches every textured packet to the

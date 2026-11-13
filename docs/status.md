@@ -2,7 +2,26 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 7. Insert, fit, check next (phase 6 translation done 2026-11-14).
+- **Phase:** 8. QA in the emulator next (phase 7 insert/fit/check done 2026-11-14).
+- **Phase 7 (done 2026-11-14):** phase 6 review had 0 Critical/Important; Minors 1, 4, 5, 6 applied, the rest in
+  `docs/polish.md`. `tools/build.py` (no flag) builds the English disc: `gfx.english_items` (rects widened inside the
+  drawn box, CLUT row from budgets; song rects take the whole plate, white on each row's own plate colour),
+  `gfx.no_card` (one 128x40 canvas cut over the two TITLE4 quads), `credits.english` (staff roll repacked, page table
+  rewritten in place, D15, `docs/re/credits.md`), card title via `script_text.encode`, movies via
+  `fmv_burn.burn_all(tl_check.subs)`. Gate `tools/build_check.py`: **0 findings** (51253 sectors in 37 files + 6
+  movies; EXE changes only in the page table and card title, romdiff). `check.py` 41 passed (new: credit pack test,
+  English build passes build_check). Smoke ok. Build sha1 (Track 01) `41e4acc0d409ab3b76d8d195943814b439640434`.
+  Warp on build/ 8/8 ok (title, menu, options, sound, memcard_nocard, card1, staff, movie01; `work/qa/warp_en`):
+  English shows on the title menu, options, stage card, a movie subtitle and the staff roll.
+- **Phase 8 must look at (seen on row_sheet crops / first shots, not fixed):**
+  - Movies: requant on most subtitled frames, qscale +6 to +12 (MOVE04 1390 of 1472). Check blockiness; if bad,
+    re-quantise only macroblocks off the text, as phase 5 planned.
+  - Inks: title menu and options rows come out striped/low contrast (fill per row off a gradient); `hud.gameover`
+    stripes (desu-yo used `Inks(15, 10)`); ship names (e.g. `ship.rakuda`) pale on pale. Add `gfx.ROW_INKS`.
+  - `st5.stop`: the clear leaves a flat band on the steel texture (inpaint, desu-yo `gfx.inpainted`).
+  - `build_check.INK_NEAR_RECT` lists rows whose leftover hits were read as art (title panel frame, rnk skull, voice
+    side marks, song bevels, st5 steel, ship art): confirm in game. Staff roll page 15 head is drawn in blue (game CLUT).
+  - Sound scene final shot shows "It's under repair!" on the options list: check which row that is.
 - **Done:**
   - Step 0: dump pinned (`rom.sha1`, 23 files), pre-commit hook in `tools/hooks` (a failing test blocked a commit), guard blocks `sed -i`, `tools/skill.py` prints the skill path, smoke boots the original disc on `tools/pcsx` and a scripted Start skips the opening FMV to the title. Not tested: GUI keyboard input (headless run). Tools copied from desu-yo: `disc.py`, `tim.py` (+ `best_clut`, `png ... auto`), `tim_sheets.py`, `tim_survey.py`, `str_frames.py`, `strings_scan.py`, `vram.py`, `tbl.py`, `bps.py`, `romdiff.py`. New: `sjis_scan.py`.
   - Phase 1: `docs/re/disc.md` (22 tracks, 188 TIMs, 7 stage overlays, 6 STR movies, DA = CD audio), `text.md` (no encoding; only Shift-JIS is the memory card title at EXE 0x8FA60, byte-swapped words), `graphics.md` (every Japanese TIM element by screen, read zoomed). FMVs sampled every 3 s: spoken dialogue, no captions. `tests/test_recon.py` holds the layout and the single-string finding.
@@ -31,12 +50,11 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - No English seen in game yet: fit is by measurement only. 15 rows have rect-only budgets (never drawn), voice rows
     are held to their own uv quads (a table phase 7 could widen), and stage-card rows to their rects.
   - Nobody listened to the movies; `?` rows are listed in `docs/polish.md`.
-- **Next (phase 7):** follow desu-yo's phase 7 (`tools/build.py` English mode, `tools/build_check.py`): typeset
-  `script/en/graphics.tsv` through `gfx.typeset` (per-row inks: desu-yo `ROW_INKS`; options rows in both CLUT rows),
-  pack the credits into END_STF0/1 and rewrite the page table in place (`docs/re/credits.md` §For phase 7), burn
-  `tl_check.subs()` into the movies (`fmv_burn.burn_all`; measure the qscale cost, exact frames for times), encode
-  the card title (`script_text.encode`). Then `emu.py --smoke`, `romdiff.py`/build_check, warp shots of the changed
-  screens.
+- **Next (phase 8):** follow desu-yo's phase 8 (`qa_sheets.py`, `row_cover.py`, `rect_spill.py`, `qa_gate.py`):
+  full warp tour on build/ (all 54 scenes + `--prims` for text coverage), contact sheets per chunk, verdicts by a
+  fresh read-only pass or `codex exec` (no nested workers), every graphics row zoomed in a cold-boot shot (options
+  rows in both CLUT rows), `inkbox.py` on menus, fix the list above. Subtitle times are still Whisper's (not exact
+  frames); MOVE04.2's split should land on the voice change.
 - **Phase 5 limits:**
   - Review was by the implementer in a separate read pass, not independent (no codex run). Screens read zoomed: about 12; the other scenes only passed their state checks.
   - Burning the 3-line marker forced a qscale rise on every subtitled frame (+7 to +15; base q 4-8), so the frames go blocky. Real subtitles are shorter; phase 7 must measure the cost and, if needed, re-quantise only the macroblocks off the text or cap at 2 lines (`fmv_sheet.py --slack`: median 736-1332 bytes free per frame).

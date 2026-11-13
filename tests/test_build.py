@@ -60,6 +60,34 @@ def test_identity_rewrote_every_form1_file(built):
     assert tims == 188 and len(files) > tims
 
 
+def test_credit_pack_keeps_strips_apart():
+    import credits
+    boxes = {"a": (200, 10), "b": (100, 10), "c": (56, 12), "d": (40, 8)}
+    at = credits.pack([(k, w, h) for k, (w, h) in boxes.items()], [(208, 0, 48, 48)])
+    rects = [(u, v, *boxes[k]) for k, (u, v) in at.items()]
+    for i, (u, v, w, h) in enumerate(rects):
+        assert u + w <= 256 and v + h <= 256 and not (u + w > 208 and v < 48)  # clear of the kept icon box
+        for u2, v2, w2, h2 in rects[i + 1:]:
+            assert u + w <= u2 or u2 + w2 <= u or v + h <= v2 or v2 + h2 <= v
+    with pytest.raises(ValueError):
+        credits.pack([(i, 256, 16) for i in range(17)], [])
+
+
+@needs_rom
+def test_english_build_passes_build_check(tmp_path):
+    """English disc without movies: every change inside its rows, the credit sheets and the EXE's allowed ranges."""
+    import build_check
+    import credits
+    build.build(tmp_path, movies=False)
+    findings, _ = build_check.check(tmp_path)
+    assert findings == []
+    d = disc.Disc(str(tmp_path / build.TRACK1))
+    exe = d.read("/BOKAN.EXE")
+    d.f.close()
+    for _, es in credits.pages(exe)[:25]:  # every credit entry samples inside its sheet and ends on screen
+        assert all(e.u + e.w <= 256 and e.v + e.h <= 256 and e.x + e.w <= credits.ROOM for e in es)
+
+
 @needs_rom
 def test_write_file_changes_only_that_file(built, tmp_path):
     """An edit must land, read back, and touch no other sector."""

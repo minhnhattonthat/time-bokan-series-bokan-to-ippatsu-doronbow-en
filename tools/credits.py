@@ -148,6 +148,138 @@ def table_lines(path=ROOT / "script" / "credits.tsv"):
     return out
 
 
+ROOM = 276  # page x + 32 = screen x (staff dumps); keep 12 px at the right, as the movies
+LINE_GAP = 8  # px kept between two lines at one y of a page
+SHEET_OF_PAGE = ["CHRPLY2/END_STF0"] * 15 + ["CHRPLY2/END_STF1"] * 10  # pages 0-14, 15-24 (docs/re/credits.md)
+
+
+def pack(strips, keep):
+    """{key: (u, v)} for each (key, w, h) strip in a 256x256 sheet, clear of the keep rects (x, y, w, h). Shelf packing,
+    tallest then widest first, each strip in the first shelf with room. ValueError when the sheet is full."""
+    shelves, top, at = [], 0, {}
+    for key, w, h in sorted(strips, key=lambda s: (-s[2], -s[1], s[0])):
+        spot = next(((sh, i) for sh in shelves if sh[1] >= h for i, (a, b) in enumerate(sh[2]) if b - a >= w), None)
+        if not spot:
+            if top + h > 256:
+                raise ValueError(f"credit sheet full at {key!r}")
+            free, a = [], 0
+            for c0, c1 in sorted((kx, kx + kw) for kx, ky, kw, kh in keep if ky < top + h and top < ky + kh):
+                free.append((a, c0))
+                a = max(a, c1)
+            free.append((a, 256))
+            shelves.append((top, h, free))
+            top += h
+            i = next((i for i, (a, b) in enumerate(free) if b - a >= w), None)
+            if i is None:
+                raise ValueError(f"credit strip {key!r} is {w} px, wider than a shelf")
+            spot = (shelves[-1], i)
+        sh, i = spot
+        a, b = sh[2][i]
+        sh[2][i] = (a + w, b)
+        at[key] = (a, sh[0])
+    return at
+
+
+def english(exe, sheet_data):
+    """(exe, {sheet: TIM bytes}) with the English roll: every text cell cleared (icons kept), each line's parts
+    (script/en/credits.tsv, "|") lettered flat in the line's own ink, as the Japanese glyphs (no outline), packed into
+    the sheet its page samples, and the line's page entries pointed at them in place. A line with fewer parts than
+    entries repeats its last part; one with more joins its last parts into one strip."""
+    import numpy as np
+    import gfx
+    import tl_check
+    en = {int(r["n"]): r["en"] for r in tl_check.table(tl_check.EN / "credits.tsv")}
+    src = table_lines()
+    by_shape = {tuple(p[1:] for p in ps): (n, kind) for n, kind, _, ps in src}
+    tims = {f: tim.parse(b) for f, b in sheet_data.items()}
+    px = {f: gfx.tim_px(t, sheet_data[f]) for f, t in tims.items()}
+    full = SHEETS[0][:-4]
+    keep = {f: [] for f in SHEETS}
+    for n, kind, _, ps in src:
+        if kind == "icon":
+            keep[full + ps[0][0]] += [(u, v, w, h) for _, u, v, w, h, _ in ps]
+    pgs = pages(exe)
+    keep[SHEETS[0]] += [(e.u, e.v, e.w, e.h) for e in pgs[25][1]]  # the four face icons
+
+    def ink(text):
+        frame = gfx.raster(text, "credit")
+        cols = np.flatnonzero(frame.any(axis=0))
+        return frame[:, cols[0]:cols[-1] + 1]
+
+    texts = [p.strip() for e in en.values() if e for p in e.split("|")]
+    rows = np.flatnonzero(np.logical_or.reduce([ink(t).any(axis=1) for t in texts]))
+    band0, band = rows[0], rows[-1] - rows[0] + 1  # rows every line's ink falls in, so lines share one baseline
+    jobs = []  # (page, line entries, n, kind)
+    for pi in range(25):
+        for g in page_lines(pgs[pi][1]):
+            n, kind = by_shape[tuple((e.u, e.v, e.w, e.h, e.x - g[0].x) for e in g)]
+            if kind != "icon" and en[n]:
+                jobs.append((pi, g, n, kind))
+    strips, placed = {}, []
+    for pi, g, n, kind in jobs:
+        f = SHEET_OF_PAGE[pi]
+        old = np.concatenate([px[f][e.v:e.v + e.h, e.u:e.u + e.w].ravel() for e in g])
+        vals, cnt = np.unique(old[old != 0], return_counts=True)
+        fill = int(vals[cnt.argmax()])
+        parts = [ink(p.strip()) for p in en[n].split("|")]
+        if len(parts) > len(g):  # join the tail into the last entry's strip
+            gap = np.zeros((parts[0].shape[0], tl_check.CREDIT_GAP), bool)
+            tail = parts[len(g) - 1:]
+            parts = parts[:len(g) - 1] + [np.hstack([a for p in tail for a in (p, gap)][:-1])]
+        inked = sum(p.shape[1] for p in parts)
+        gap = tl_check.CREDIT_GAP
+        if len(parts) > 1 and inked + gap * (len(parts) - 1) > ROOM:  # page x can't go below 0 (u8)
+            gap = max(8, (ROOM - inked) // (len(parts) - 1))
+        width = inked + gap * (len(parts) - 1)
+        x0, x1 = g[0].x, g[-1].x + g[-1].w
+        x = (x0 + x1 - width) // 2 if kind == "head" or pi in (0, 15) else x0
+        x = max(0, min(x, ROOM - width))
+        if x + width > ROOM:
+            raise ValueError(f"credit {n}: {width} px, room {ROOM}")
+        y = g[0].y + (g[0].h - band) // 2 - band0
+        ents, dx = [], 0
+        for p in parts:
+            r = np.flatnonzero(p.any(axis=1))
+            key = (f, p[r[0]:r[-1] + 1].tobytes(), p.shape[1], fill)
+            strips[key] = (p[r[0]:r[-1] + 1], fill)
+            ents.append((key, dx, y + r[0]))
+            dx += p.shape[1] + gap
+        placed.append([pi, g, n, x, width, ents])
+    rows = {}
+    for ln in placed:
+        rows.setdefault((ln[0], ln[1][0].y), []).append(ln)
+    for (pi, _), ls in rows.items():  # two lines at one y: slide the right one right, then the left one left
+        ls.sort(key=lambda ln: ln[3])
+        for a, b in zip(ls, ls[1:]):
+            need = a[3] + a[4] + LINE_GAP - b[3]
+            if need > 0:
+                step = min(need, ROOM - b[4] - b[3])
+                b[3] += step
+                a[3] -= min(need - step, a[3])
+            if b[3] < a[3] + a[4] + LINE_GAP:
+                raise ValueError(f"credits {a[2]} and {b[2]} overlap on page {pi}")
+    at = {}
+    for f in SHEETS:
+        mine = [(k, s.shape[1], s.shape[0]) for k, (s, _) in strips.items() if k[0] == f]
+        at.update(pack(mine, keep[f]))
+        cleared = np.zeros_like(px[f])
+        for kx, ky, kw, kh in keep[f]:
+            cleared[ky:ky + kh, kx:kx + kw] = px[f][ky:ky + kh, kx:kx + kw]
+        px[f] = cleared
+    for k, (s, fill) in strips.items():
+        u, v = at[k]
+        cell = px[k[0]][v:v + s.shape[0], u:u + s.shape[1]]
+        cell[s] = fill
+    out = bytearray(exe)
+    for pi, g, n, x, _, ents in placed:
+        for e, (key, dx, y) in zip(g, ents + [ents[-1]] * (len(g) - len(ents))):
+            u, v = at[key]
+            s = strips[key][0]
+            struct.pack_into("<4B2H", out, e.off, u, v, x + dx, y, s.shape[1], s.shape[0])
+    new = {f: tim.with_pixels(tims[f], sheet_data[f], px[f].reshape(-1).tolist()) for f in SHEETS}
+    return bytes(out), new
+
+
 def fmt(k):
     return " ".join(f"{f[-4:]}:{u},{v},{w},{h}@{dx}" for f, u, v, w, h, dx in k)
 

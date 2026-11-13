@@ -35,7 +35,7 @@ CLASSES = {
     "tag": ("Jersey10-Regular.ttf", 10, True),
     "card": ("Bangers-Regular.ttf", 28, True),
     "sign": ("LiberationSans-Bold.ttf", 12, False),
-    "credit": ("Jersey15-Regular.ttf", 15, True),
+    "credit": ("Jersey15-Regular.ttf", 15, False),  # flat, as the roll's Japanese glyphs; an outline overfills END_STF0
 }
 DIGITS = {
     "0": ("111", "101", "101", "101", "111"),
@@ -209,7 +209,11 @@ def typeset(data, rows):
         clear = True
         if forced:
             fill, line, clear = np.full(h, forced[0].fill), forced[0].line, forced[0].clear
-            if forced[0].bg is not None:
+            if forced[0].bg == "row":  # each row's commonest non-text index of the rect itself (plates with bevels)
+                cell0 = px[y:y + h, x:x + w]
+                bg = np.array([mode(r[~np.isin(r, (forced[0].fill, line))]) if (~np.isin(r, (forced[0].fill, line))).any()
+                               else int(r[0]) for r in cell0])
+            elif forced[0].bg is not None:
                 bg = np.full(h, forced[0].bg)
         cell = px[y:y + h, x:x + w]
         if clear:
@@ -219,6 +223,99 @@ def typeset(data, rows):
         box[halo] = line
         box[ink] = np.broadcast_to(fill[oy:oy + gh, None], ink.shape)[ink]
     return tim.with_pixels(t, data, px.reshape(-1).tolist())
+
+
+def uv_box(budget, rect):
+    """The row's smallest drawn box that holds its rect, or the rect when nothing was measured (desu-yo)."""
+    x, y, w, h = rect
+    boxes = [tuple(map(int, u.split(","))) for u in budget["uv"].split(";")] if budget["uv"] else []
+    held = [b for b in boxes if b[0] <= x and b[1] <= y and x + w <= b[0] + b[2] and y + h <= b[1] + b[3]]
+    return min(held, key=lambda b: b[2] * b[3]) if held else rect
+
+
+def widened(rect, need_w, need_h, box, others):
+    """rect grown to need_w x need_h, around its centre as far as box allows, clear of the other rows' rects. ValueError
+    if it can't: an overflow must stop the build."""
+    x, y, w, h = rect
+    if need_w > w:
+        x, w = max(box[0], min(x - (need_w - w) // 2, box[0] + box[2] - need_w)), need_w
+    if need_h > h:
+        y, h = max(box[1], min(y - (need_h - h) // 2, box[1] + box[3] - need_h)), need_h
+    if x + w > box[0] + box[2] or y + h > box[1] + box[3]:
+        raise ValueError(f"rect {rect} can't reach {need_w}x{need_h} inside {box}")
+    for o in others:
+        if x < o[0] + o[2] and o[0] < x + w and y < o[1] + o[3] and o[1] < y + h:
+            raise ValueError(f"rect {rect} grown to {x, y, w, h} hits {o}")
+    return x, y, w, h
+
+
+CANVAS_ROWS = ("card.p_memory", "card.p_inserted", "card.p_card", "card.p_imasen")
+# The no-card message: two 64x40 quads side by side on screen (budgets.tsv), so one 128x40 canvas cut in two.
+CANVAS_PIECES = ((32, 0, 64, 40, 0), (40, 40, 64, 40, 64))  # TIM x, y, w, h, canvas column
+ROW_INKS = {}  # row id: Inks, for rows whose sampled inks fail (phase 8 adds them from zoomed shots)
+SONG_INKS = Inks(15, 1, bg="row")  # white, as the Japanese titles, on each row's own plate colour
+
+
+def no_card(data):
+    """TITLE4 with the no-card message lettered across both quads in the inks of ・メモリー."""
+    import tl_check
+    t = tim.parse(data)
+    px = tim_px(t, data)
+    by_id = {r.id: r for r in gfx_script.rows()}
+    r = by_id["card.p_memory"]
+    bg, fill, line = sampled_inks(px[r.y:r.y + r.h, r.x:r.x + r.w], pal(t, 0))
+    text = next(e["en"] for e in tl_check.table(ROOT / "script" / "en" / "graphics.tsv") if e["id"] == r.id)
+    ink, halo = glyphs(text, by_id[r.id].form)
+    if ink.shape[1] > 128 or ink.shape[0] > 40:
+        raise ValueError(f"{text!r} is {ink.shape[1]}x{ink.shape[0]}, canvas 128x40")
+    cell = np.full((40, 128), int(bg[0]), dtype=np.int32)
+    oy, ox = (40 - ink.shape[0]) // 2, (128 - ink.shape[1]) // 2
+    box = cell[oy:oy + ink.shape[0], ox:ox + ink.shape[1]]
+    box[halo] = line
+    box[ink] = int(fill[len(fill) // 2])
+    for rid in CANVAS_ROWS:
+        o = by_id[rid]
+        px[o.y:o.y + o.h, o.x:o.x + o.w] = int(bg[0])
+    for u, v, w, h, cx in CANVAS_PIECES:
+        px[v:v + h, u:u + w] = cell[:h, cx:cx + w]
+    return tim.with_pixels(t, data, px.reshape(-1).tolist())
+
+
+def english_items():
+    """(row id, file, typeset row) of every row of script/en/graphics.tsv that typeset() letters: each rect widened to
+    its text inside the row's drawn box if needed, with the CLUT row the game draws it with. The no-card canvas rows are
+    no_card()'s."""
+    import tl_check
+    budgets = {b["id"]: b for b in tl_check.table(ROOT / "script" / "budgets.tsv")}
+    by_id = {r.id: r for r in gfx_script.rows()}
+    cluts = drawn_cluts()
+    for e in tl_check.table(ROOT / "script" / "en" / "graphics.tsv"):
+        r = by_id[e["id"]]
+        if r.id in CANVAS_ROWS or not e["en"]:
+            continue
+        form = e["class"] or r.form
+        rect = (r.x, r.y, r.w, r.h)
+        if r.id.startswith("song."):  # the whole plate inside its bolts, so the rect takes 」 too; left, as the Japanese
+            rect = (r.x, r.y, tl_check.SONG_W, r.h)
+        gh, gw = glyphs(e["en"], form)[0].shape
+        others = [(o.x, o.y, o.w, o.h) for o in by_id.values() if o.file == r.file and o.id != r.id and o.form != "keep"]
+        if gw > rect[2] or gh > rect[3]:
+            rect = widened(rect, max(gw, rect[2]), max(gh, rect[3]), uv_box(budgets[r.id], rect), others)
+        row = (rect, e["en"], form, "l" if r.id.startswith("song.") else "c")
+        inks = ROW_INKS.get(r.id, SONG_INKS if r.id.startswith("song.") else None)
+        if inks:
+            row += (inks,)
+        elif r.id in cluts:
+            row += (cluts[r.id],)
+        yield r.id, r.file, row
+
+
+def english_rows():
+    """{file: [typeset row, ...]} of english_items()."""
+    out = {}
+    for _, file, row in english_items():
+        out.setdefault(file, []).append(row)
+    return out
 
 
 def spike_rows(path=ROOT / "script" / "spike.tsv"):
