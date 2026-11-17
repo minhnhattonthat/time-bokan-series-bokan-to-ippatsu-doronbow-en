@@ -1,22 +1,3 @@
 # Skill gotchas
 
-One line per gotcha: the reference file it belongs in, then the fact.
-
-- scripts/sheet.py: `--out DIR/x.png` fails with FileNotFoundError when DIR does not exist; it does not create it.
-- references/graphics.md (survey): PS1 TIMs here keep a one-colour placeholder in CLUT row 0, so CLUT-0 sheets show text as solid shapes; pick the first multi-colour row (`tools/tim.py png FILE OUT auto`) to read it.
-- references/emulator-qa.md (Hooks): a `--var SHOTS=...` collides with emu.py's own `SHOTS` global in `_run.lua`; PCSX-Redux then exits -1 with an empty log. Name scene vars something else (NSHOTS).
-- references/emulator-qa.md (Hooks): PCSX-Redux Lua is LuaJIT 5.1: no `//` operator (parse error, exit 2).
-- references/platform-ps1.md: emu.py drives pad 1 only; `PCSX.SIO0.slots[2].pads[1].setOverride(b)` reaches pad 2 only after `PCSX.settings.pads[2].Connected = true` (PCSX-Redux leaves pad 2 unplugged by default; set it at script load). Confirmed: 2P join and mid-stage join work then.
-- references/platform-ps1.md: `PCSX.settings.emulator.Mcd1Inserted = false` at script load boots with no card in slot 1 ("card not inserted" messages); emu.py has no flag for it.
-- scripts/lua/pcsx_lib.lua: `L.press` appends to a queue with no way to cancel, so `L.press("cross", 20000)` delays every later press by 20000 frames. Hold in short chunks (`L.press(b, 10); W.frames(10)` in a loop) when the scene presses anything after.
-- references/emulator-qa.md (Debug tool): to call a game function from Lua without the debugger, write a small MIPS stub into dead RAM and start it as a task (it kills its slot, then `j fn`); use a fresh stub address per call since the dynarec caches compiled code.
-- scripts/jpscan.py: misses Shift-JIS stored as byte-swapped 16-bit words (this game's memory card title); `tools/sjis_scan.py --swap` finds it.
-- references/platform-ps1.md (FMV): STR version 3 codes each block's DC as an MPEG-1 DC-size VLC + difference to the previous DC of the same kind (Cr, Cb, Y), in steps of 4, and ends the frame with `1111111111`; a v2-only MDEC tool fails on it. `tools/mdec.py` here handles both, bit-exact. 640x240 movies need subtitles drawn on a half-width canvas and stretched 2x.
-- references/emulator-qa.md (GPU dumps): scanning RAM for GPU packets picks up stale packets from earlier frames (pieces a few px off, false line merges). Walk the ordering tables instead (runs of words each linking to the previous one; start at the last entry) and keep only packets on a chain: `prims.live()`.
-- references/graphics.md (Find the source): a SPRT packet can follow its E1 draw-mode word directly (6 words, n=5) or after two zero words (n=7, desu-yo); a reader that knows only one shape sees no sprites at all.
-- references/emulator-qa.md (Visual QA): `codex exec -s read-only` on Windows can't start a shell (ShellExecuteExW 1223), so attach the sheets with `-i`, inline any file the reviewer needs (glossary), and pass the prompt on stdin (`codex` is a .cmd shim; cmd.exe mangles multi-line args). `tools/qa_codex.py` does this.
-- (tooling) Claude Code Edit tool: an old_string ending in a tab before an empty TSV column can come back with one tab, merging the empty class column into the note; grep the row with `cat -A` after editing TSVs.
-- references/graphics.md (Lettering): a leftover scan that only searches inside "the drawn box holding the rect" sees nothing when the rect pokes 1 px out of its quad (falls back to the rect itself): ship names here kept outline rows unseen until codex caught them. Search the quads the rect overlaps (`build_check.near_box`), and grow rects to the whole quad band when outlines reach its edges.
-- references/graphics.md (Lettering): glyphs on textured or shaped art (banner plates, round badges, bubbles) look wrong with a rect clear; erase only the glyph's own indices by copying the nearest other pixel (`gfx.inpaint`, `Inks(bg=(indices))`), then letter with clear off.
-- references/graphics.md (Inks): staff roll role glyphs here are bright (index 15) with a dark coloured outline (11); taking the commonest index letters English in the outline colour, unreadable on black. Check which index is core vs outline zoomed.
-- references/graphics.md (Lettering): in a packed sprite atlas a rect measured by eye can be taller than its sprite; a cleared rect then wipes the neighbours' edge rows (here `hud.pick_mecha` 56x20 erased 2 rows of the HUD sprites above and the top of the GAME OVER sprite below, unseen through phase 8 QA). Dump the indices around each rect (`gfx.tim_px`) and fit rects to sprite bounds or the drawn quad (budgets uv).
+One line each: the skill reference file it belongs in, then the fact.
